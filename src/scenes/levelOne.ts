@@ -9,6 +9,8 @@ export default class levelOne extends Phaser.Scene {
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
+
+        this.add.image(100, 100, "stone");
     }
 
     update() {}
