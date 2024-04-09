@@ -30,6 +30,9 @@ export default class levelOnePass extends Phaser.Scene {
         popupText.setOrigin(0.5);
 
         // make buttons to change to level two
+        this.add.image(700, 200, "duck").setScale(0.6);
+        this.add.image(550, 200, "duck").setScale(0.6);
+
         const nextLevel = this.add
             .text(500, 500, "Next Level", {
                 color: "#ffffff",

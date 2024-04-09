@@ -17,7 +17,7 @@ export default class levelThree extends Phaser.Scene {
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
 
-        const levelName = this.add.text(25, 25, "Level 1", {
+        const levelName = this.add.text(25, 25, "Level 3", {
             fontFamily: "Arial Black",
             fontSize: "40px",
             color: "#ffffe0",
@@ -25,6 +25,8 @@ export default class levelThree extends Phaser.Scene {
         levelName.setStroke("#ffd700", 16);
 
         this.add.image(150, 500, "duck").setScale(0.4);
+        this.add.image(50, 500, "duck").setScale(0.4);
+        this.add.image(75, 550, "duck").setScale(0.4);
         this.add.image(950, 250, "duck").setScale(0.4);
 
         // connection lines

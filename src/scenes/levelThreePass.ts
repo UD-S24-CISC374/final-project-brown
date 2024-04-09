@@ -21,6 +21,7 @@ export default class levelThreePass extends Phaser.Scene {
         background.setOrigin(0, 0);
 
         // Add popup content
+
         const popupText = this.add.text(
             screenWidth / 2,
             screenHeight / 2,
@@ -45,7 +46,7 @@ export default class levelThreePass extends Phaser.Scene {
         console.log("attaching listener to button");
         nextLevel.on("pointerdown", () => {
             console.log("Button clicked!");
-            this.scene.start("levelTwo");
+            this.scene.start("levelThree");
         });
     }
 }

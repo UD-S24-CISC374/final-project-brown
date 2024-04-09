@@ -1,6 +1,6 @@
 import Phaser from "phaser";
 
-export default class levelOnePass extends Phaser.Scene {
+export default class levelTwoPass extends Phaser.Scene {
     constructor() {
         super({ key: "levelTwoPass", active: false });
     }
@@ -21,6 +21,9 @@ export default class levelOnePass extends Phaser.Scene {
         background.setOrigin(0, 0);
 
         // Add popup content
+        this.add.image(725, 200, "duck").setScale(0.5);
+        this.add.image(525, 200, "duck").setScale(0.5);
+        this.add.image(625, 200, "duck").setScale(0.5);
         const popupText = this.add.text(
             screenWidth / 2,
             screenHeight / 2,
@@ -31,7 +34,7 @@ export default class levelOnePass extends Phaser.Scene {
 
         // make buttons to change to level two
         const nextLevel = this.add
-            .text(500, 500, "Click Here to Start", {
+            .text(500, 500, "Next Level", {
                 color: "#ffffff",
                 fontSize: "32px",
                 fixedWidth: 425,
@@ -45,7 +48,7 @@ export default class levelOnePass extends Phaser.Scene {
         console.log("attaching listener to button");
         nextLevel.on("pointerdown", () => {
             console.log("Button clicked!");
-            this.scene.start("levelTwo");
+            this.scene.start("levelThree");
         });
     }
 }
