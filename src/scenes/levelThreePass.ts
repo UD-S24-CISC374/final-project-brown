@@ -30,7 +30,7 @@ export default class levelThreePass extends Phaser.Scene {
         );
         popupText.setOrigin(0.5);
 
-        // make buttons to change to level two
+        // make buttons to change to level four
         const nextLevel = this.add
             .text(500, 500, "Click Here to Start", {
                 color: "#ffffff",
@@ -46,7 +46,7 @@ export default class levelThreePass extends Phaser.Scene {
         console.log("attaching listener to button");
         nextLevel.on("pointerdown", () => {
             console.log("Button clicked!");
-            this.scene.start("levelThree");
+            this.scene.start("levelFour");
         });
     }
 }
