@@ -21,6 +21,10 @@ export default class levelThreePass extends Phaser.Scene {
         background.setOrigin(0, 0);
 
         // Add popup content
+        this.add.image(650, 100, "duck").setScale(0.5);
+        this.add.image(725, 200, "duck").setScale(0.5);
+        this.add.image(525, 200, "duck").setScale(0.5);
+        this.add.image(625, 200, "duck").setScale(0.5);
 
         const popupText = this.add.text(
             screenWidth / 2,
@@ -32,7 +36,7 @@ export default class levelThreePass extends Phaser.Scene {
 
         // make buttons to change to level four
         const nextLevel = this.add
-            .text(500, 500, "Click Here to Start", {
+            .text(500, 500, "Next Level", {
                 color: "#ffffff",
                 fontSize: "32px",
                 fixedWidth: 425,
