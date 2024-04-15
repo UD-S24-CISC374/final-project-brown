@@ -75,13 +75,13 @@ export default class levelOne extends Phaser.Scene {
         this.add.text(550, 450, values[4].toString());
 
         // dijkstras algorithm
-        const stonePlacement = [
+        /*const stonePlacement = [
             { x: 500, y: 400 },
             { x: 275, y: 500 }, //source stone
             { x: 700, y: 600 },
             { x: 750, y: 450 }, //target stone
         ];
-
+*/
         const edges = [
             [0, values[1], values[5], values[5]],
             [values[1], 0, values[2], 0],
@@ -108,8 +108,8 @@ export default class levelOne extends Phaser.Scene {
         // Dijkstra's algorithm implementation
         function dijkstra(
             edges: number[][],
-            source: number,
-            target: number
+            source: number
+            //target: numbeR
         ): number[] {
             const n = edges.length;
             const distances: number[] = Array(n).fill(Number.POSITIVE_INFINITY);
