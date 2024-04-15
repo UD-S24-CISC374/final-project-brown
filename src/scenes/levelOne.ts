@@ -77,9 +77,9 @@ export default class levelOne extends Phaser.Scene {
         // dijkstras algorithm
         const stonePlacement = [
             { x: 500, y: 400 },
-            { x: 275, y: 500 },
+            { x: 275, y: 500 }, //source stone
             { x: 700, y: 600 },
-            { x: 750, y: 450 },
+            { x: 750, y: 450 }, //target stone
         ];
 
         const edges = [
