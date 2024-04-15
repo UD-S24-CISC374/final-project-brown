@@ -66,6 +66,28 @@ export default class levelTwo extends Phaser.Scene {
         stone4.setScale(0.5, 0.4);
         stone5.setScale(0.5, 0.4);
         stone6.setScale(0.5, 0.4);
+
+        function generateValues(): number[] {
+            const randomList: number[] = [];
+            for (let i = 0; i < 20; i++) {
+                const randomNumber =
+                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                randomList.push(randomNumber);
+            }
+            return randomList;
+        }
+        const values = generateValues();
+
+        console.log(values);
+        this.add.text(387, 417, values[0].toString());
+        this.add.text(350, 470, values[1].toString());
+        this.add.text(529, 540, values[2].toString());
+        this.add.text(765, 427, values[3].toString());
+        this.add.text(595, 450, values[4].toString());
+        this.add.text(450, 462, values[5].toString());
+        this.add.text(575, 500, values[6].toString());
+        this.add.text(695, 540, values[7].toString());
+        this.add.text(635, 385, values[8].toString());
     }
 
     update() {}

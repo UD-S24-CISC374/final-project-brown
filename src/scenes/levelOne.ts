@@ -67,13 +67,85 @@ export default class levelOne extends Phaser.Scene {
             return randomList;
         }
         const values = generateValues();
+        console.log(values);
         this.add.text(387, 450, values[0].toString());
         this.add.text(487, 550, values[1].toString());
         this.add.text(725, 525, values[2].toString());
         this.add.text(625, 435, values[3].toString());
         this.add.text(550, 450, values[4].toString());
 
-        // end level
+        // dijkstras algorithm
+        const stonePlacement = [
+            { x: 500, y: 400 },
+            { x: 275, y: 500 }, //source stone
+            { x: 700, y: 600 },
+            { x: 750, y: 450 }, //target stone
+        ];
+
+        const edges = [
+            [0, values[1], values[5], values[5]],
+            [values[1], 0, values[2], 0],
+            [values[5], values[2], 0, values[4]],
+            [values[4], 0, values[3], 0],
+        ];
+        // taken from chat gpt
+        // Function to find the index of the stone with the smallest distance
+        function findMinDistance(
+            distances: number[],
+            visited: boolean[]
+        ): number {
+            let minDistance = Number.POSITIVE_INFINITY;
+            let minIndex = -1;
+            for (let i = 0; i < distances.length; i++) {
+                if (!visited[i] && distances[i] < minDistance) {
+                    minDistance = distances[i];
+                    minIndex = i;
+                }
+            }
+            return minIndex;
+        }
+
+        // Dijkstra's algorithm implementation
+        function dijkstra(
+            edges: number[][],
+            source: number,
+            target: number
+        ): number[] {
+            const n = edges.length;
+            const distances: number[] = Array(n).fill(Number.POSITIVE_INFINITY);
+            const visited: boolean[] = Array(n).fill(false);
+
+            distances[source] = 0;
+
+            for (let i = 0; i < n - 1; i++) {
+                const u = findMinDistance(distances, visited);
+                visited[u] = true;
+
+                for (let v = 0; v < n; v++) {
+                    if (
+                        !visited[v] &&
+                        edges[u][v] !== 0 &&
+                        distances[u] + edges[u][v] < distances[v]
+                    ) {
+                        distances[v] = distances[u] + edges[u][v];
+                    }
+                }
+            }
+
+            return distances;
+        }
+
+        // Example usage
+
+        const sourceStone = 0; // Index of the source stone in the graph
+        const targetStone = 3; // Index of the target stone in the graph
+
+        const distances = dijkstra(edges, sourceStone, targetStone);
+        console.log("Shortest distances from source stone:", distances);
+        console.log(
+            "Shortest distance to target stone:",
+            distances[targetStone]
+        );
     }
 
     update() {}
