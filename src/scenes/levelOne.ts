@@ -42,7 +42,6 @@ export default class levelOne extends Phaser.Scene {
         graphics.lineTo(750, 450);
         graphics.lineTo(500, 400);
         graphics.lineTo(700, 600);
-
         graphics.strokePath();
 
         // add stones
@@ -57,6 +56,22 @@ export default class levelOne extends Phaser.Scene {
         stone2.setScale(0.5, 0.4);
         stone3.setScale(0.5, 0.4);
         stone4.setScale(0.5, 0.4);
+
+        function generateValues(): number[] {
+            const randomList: number[] = [];
+            for (let i = 0; i < 10; i++) {
+                const randomNumber =
+                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                randomList.push(randomNumber);
+            }
+            return randomList;
+        }
+        const values = generateValues();
+        this.add.text(387, 450, values[0].toString());
+        this.add.text(487, 550, values[1].toString());
+        this.add.text(725, 525, values[2].toString());
+        this.add.text(625, 435, values[3].toString());
+        this.add.text(550, 450, values[4].toString());
 
         // end level
     }
