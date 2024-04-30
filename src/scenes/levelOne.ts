@@ -90,7 +90,7 @@ export default class levelOne extends Phaser.Scene {
         });
 
         // dijkstras algorithm
-        const stonePaths = [
+        /*const stonePaths = [
             [[275, 500], [500, 400], values[1]],
             [[500, 400], [700, 600], values[5]],
             [[700, 600], [750, 450], values[3]],
@@ -98,7 +98,7 @@ export default class levelOne extends Phaser.Scene {
             [[275, 500], [700, 600], values[2]],
 
             // Add more paths as needed
-        ];
+        ];*/
 
         // Function to find the index of the stone with the smallest distance
         /*function dijkstra(start: number[]): Record<string, number> {
