@@ -2,12 +2,20 @@ import Phaser from "phaser";
 
 export default class levelThree extends Phaser.Scene {
     private stone?: Phaser.Physics.Arcade.StaticGroup;
-    private duck?: Phaser.Physics.Arcade.Sprite;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
+    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+    target: Phaser.Math.Vector2;
 
     constructor() {
         super({ key: "levelThree" });
+    }
+
+    preload() {
+        this.load.spritesheet("duck", "assets/img/duck.png", {
+            frameWidth: 32,
+            frameHeight: 48,
+        });
     }
 
     create() {
@@ -30,12 +38,6 @@ export default class levelThree extends Phaser.Scene {
             color: "#ffffe0",
         });
         levelName.setStroke("#ffd700", 16);
-
-        this.duck = this.physics.add.sprite(150, 500, "duck").setScale(0.4);
-        this.duck.setCollideWorldBounds(true);
-        this.add.image(50, 500, "duck").setScale(0.4);
-        this.add.image(75, 500, "duck").setScale(0.4);
-        this.add.image(950, 250, "duck").setScale(0.4);
 
         // Add connection lines
         const graphics = this.add.graphics();
@@ -66,9 +68,10 @@ export default class levelThree extends Phaser.Scene {
         }
         graphics.strokePath();
 
-        // Add stones and make them interactive
+        // Add stones
         this.stone = this.physics.add.staticGroup();
-        const stonePositions = [
+
+        const stoneCoordinates = [
             { x: 500, y: 400 },
             { x: 275, y: 435 },
             { x: 650, y: 600 },
@@ -79,20 +82,32 @@ export default class levelThree extends Phaser.Scene {
             { x: 850, y: 575 },
         ];
 
-        stonePositions.forEach((position) => {
-            const stone = this.stone!.create(
-                position.x,
-                position.y,
-                "stone"
-            ).setScale(0.5, 0.4);
-            stone.setInteractive().on("pointerdown", () => {
-                this.score += 1;
-                this.moveDuckToStone(stone);
-                this.scoreText?.setText("Score: " + this.score);
-            });
+        stoneCoordinates.forEach((coord) => {
+            this.stone!.create(coord.x, coord.y, "stone")
+                .setScale(0.5, 0.4)
+                .refreshBody();
         });
 
-        this.scoreText = this.add.text(25, 70, "Score: " + this.score, {
+        this.stone!.getChildren().forEach((stone) => {
+            const stoneImage = stone as Phaser.GameObjects.Image;
+            const button = stoneImage.setInteractive();
+            button.on("pointerdown", () => {
+                // Stop the duck's movement
+                this.source.body.setVelocity(0);
+                this.source.body.reset(stoneImage.x, stoneImage.y);
+            });
+        });
+        this.source = this.physics.add.image(100, 300, "duck").setScale(0.4);
+        this.target = new Phaser.Math.Vector2();
+
+        this.input.on("pointerdown", (pointer: { x: number; y: number }) => {
+            this.target.x = pointer.x;
+            this.target.y = pointer.y;
+
+            this.physics.moveToObject(this.source, this.target, 400);
+        });
+
+        this.scoreText = this.add.text(25, 70, "Total Length: " + this.score, {
             fontFamily: "Arial Black",
             fontSize: "70px",
             color: "#ffffe0",
@@ -100,7 +115,19 @@ export default class levelThree extends Phaser.Scene {
         this.scoreText.setStroke("#ffd700", 16);
     }
 
-    moveDuckToStone(stone: Phaser.Physics.Arcade.Image) {
-        this.duck?.setPosition(stone.x, stone.y);
+    update() {
+        const tolerance = 4;
+        const distance = Phaser.Math.Distance.BetweenPoints(
+            this.source,
+            this.target
+        );
+
+        if (this.source.body.speed > 0) {
+            //this.distanceText.setText(`Distance: ${distance}`);
+
+            if (distance < tolerance) {
+                this.source.body.reset(this.target.x, this.target.y);
+            }
+        }
     }
 }
