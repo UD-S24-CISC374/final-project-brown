@@ -56,7 +56,70 @@ export default class levelFour extends Phaser.Scene {
         graphics.lineTo(790, 375);
 
         graphics.strokePath();
+        function generateValues(): number[] {
+            const randomList: number[] = [];
+            for (let i = 0; i < 15; i++) {
+                const randomNumber =
+                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                randomList.push(randomNumber);
+            }
+            return randomList;
+        }
 
+        const values = generateValues();
+        console.log(values);
+        this.add.text(387, 420, values[0].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(462, 520, values[1].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(695, 540, values[2].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(765, 427, values[3].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(595, 450, values[4].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(595, 450, values[5].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(450, 462, values[4].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(575, 500, values[6].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(645, 387, values[7].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(845, 412, values[8].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(650, 487, values[9].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(875, 512, values[10].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
+        this.add.text(820, 475, values[11].toString(), {
+            fontSize: "20px",
+            color: "000000",
+        });
         // add stones
         this.stone = this.physics.add.staticGroup();
 
