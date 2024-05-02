@@ -135,8 +135,8 @@ export default class levelOne extends Phaser.Scene {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
                 }
             })
-            .on("pointerover", () => stone2.setScale(0.5))
-            .on("pointerout", () => stone2.setScale(0.4));
+            .on("pointerover", () => stone3.setScale(0.5))
+            .on("pointerout", () => stone3.setScale(0.4));
 
         let stone4 = this.add
             .image(750, 450, "stone")
@@ -154,8 +154,8 @@ export default class levelOne extends Phaser.Scene {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
                 }
             })
-            .on("pointerover", () => stone2.setScale(0.5))
-            .on("pointerout", () => stone2.setScale(0.4));
+            .on("pointerover", () => stone4.setScale(0.5))
+            .on("pointerout", () => stone4.setScale(0.4));
 
         const stones = [stone1, stone2, stone3, stone4];
         stones.forEach((stone) => {
