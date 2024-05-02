@@ -327,7 +327,7 @@ export default class levelFour extends Phaser.Scene {
                 this.scoreText?.setText("Path Length: " + this.score);
             });
         });
-        this.scoreText = this.add.text(25, 70, "Total Length: " + this.score, {
+        this.scoreText = this.add.text(25, 70, "Path Length: " + this.score, {
             fontFamily: "Arial Black",
             fontSize: "40px",
             color: "#ffffe0",

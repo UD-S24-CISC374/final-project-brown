@@ -32,6 +32,13 @@ export default class levelFive extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
+        this.scoreText = this.add.text(25, 70, "Path Length: " + this.score, {
+            fontFamily: "Arial Black",
+            fontSize: "40px",
+            color: "#ffffe0",
+        });
+        this.scoreText.setStroke("#ffd700", 16);
+
         this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(80, 550, "duck").setScale(0.4);

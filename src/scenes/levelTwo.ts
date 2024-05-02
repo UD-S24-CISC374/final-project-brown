@@ -32,6 +32,13 @@ export default class levelTwo extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
+        this.scoreText = this.add.text(25, 75, "Path Length: 0", {
+            fontFamily: "Arial Black",
+            fontSize: "40px",
+            color: "#ffffe0",
+        });
+        this.scoreText.setStroke("#ffd700", 16);
+
         //this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(950, 250, "duck").setScale(0.4);
@@ -244,17 +251,5 @@ export default class levelTwo extends Phaser.Scene {
         this.add.text(635, 385, values[8].toString());
     }
 
-    update() {
-        // const tolerance = 4;
-        // const distance = Phaser.Math.Distance.BetweenPoints(
-        //     this.source,
-        //     this.target
-        // );
-        // if (this.source.body.speed > 0) {
-        //     //this.distanceText.setText(`Distance: ${distance}`);
-        //     if (distance < tolerance) {
-        //         this.source.body.reset(this.target.x, this.target.y);
-        //     }
-        // }
-    }
+    update() {}
 }
