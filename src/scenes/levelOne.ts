@@ -144,7 +144,7 @@ export default class levelOne extends Phaser.Scene {
         // Helper function to calculate the value of a path
 
         let correct = shortestPath(paths);
-        let tries = 0;
+        //let tries = 0;
 
         let stone1 = this.add
             .image(500, 400, "stone")
