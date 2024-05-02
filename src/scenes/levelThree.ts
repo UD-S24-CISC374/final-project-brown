@@ -157,9 +157,6 @@ export default class levelThree extends Phaser.Scene {
                         .setDepth(1);
                 }
                 this.scoreText?.setText("Path Length" + this.score);
-                //if (this.score > 3) {
-
-                //}
             });
         duck1.setScale(0.4);
 
@@ -219,6 +216,8 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone3.setScale(0.5))
             .on("pointerout", () => stone3.setScale(0.4));
+
+        this.add.text(650, 600, "stone3");
 
         let stone4 = this.add
             .image(740, 480, "stone")
