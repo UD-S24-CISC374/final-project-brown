@@ -143,14 +143,14 @@ export default class levelThree extends Phaser.Scene {
             .setInteractive()
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
-                    this.score += 1;
+                    this.score += 0;
                     duck1
                         .setX(duck2.x + 10)
                         .setY(duck2.y + 10)
                         .setDepth(1);
                 }
                 if (duck1.x == 750) {
-                    this.score += 2;
+                    this.score += 0;
                     duck1
                         .setX(duck2.x + 10)
                         .setY(duck2.y + 10)
@@ -166,12 +166,20 @@ export default class levelThree extends Phaser.Scene {
             .setAngle(0)
             .setInteractive()
             .on("pointerdown", () => {
-                if (duck1.x == 700) {
-                    this.score = +2;
+                if (duck1.x == 275) {
+                    this.score = values[0];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
-                if (duck1.x == 750) {
-                    this.score += 3;
+                if (duck1.x == 400) {
+                    this.score += values[2];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 650) {
+                    this.score += values[5];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 790) {
+                    this.score += values[3];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
@@ -186,17 +194,18 @@ export default class levelThree extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 700) {
+                if (duck1.x == 500) {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[0];
                 }
-                if (duck1.x == 750) {
-                    this.score += 3;
+                if (duck1.x == 400) {
+                    this.score += values[1];
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
                 }
             })
             .on("pointerover", () => stone2.setScale(0.5))
             .on("pointerout", () => stone2.setScale(0.4));
+        this.add.text(275, 435, "stone2");
 
         let stone3 = this.add
             .image(650, 600, "stone")
@@ -205,13 +214,17 @@ export default class levelThree extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 275) {
+                if (duck1.x == 740) {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[8];
                 }
-                if (duck1.x == 750) {
-                    this.score += 3;
+                if (duck1.x == 400) {
+                    this.score += values[7];
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                }
+                if (duck1.x == 500) {
+                    this.score += values[5];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
             })
             .on("pointerover", () => stone3.setScale(0.5))
@@ -226,17 +239,26 @@ export default class levelThree extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 275) {
+                if (duck1.x == 790) {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[9];
                 }
-                if (duck1.x == 700) {
-                    this.score += 3;
+                if (duck1.x == 900) {
+                    this.score += values[10];
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
+                }
+                if (duck1.x == 400) {
+                    this.score += values[6];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 650) {
+                    this.score += values[8];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
             })
             .on("pointerover", () => stone4.setScale(0.5))
             .on("pointerout", () => stone4.setScale(0.4));
+        this.add.text(740, 480, "stone4");
 
         let stone5 = this.add
             .image(790, 375, "stone")
@@ -245,17 +267,30 @@ export default class levelThree extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 275) {
+                if (duck1.x == 500) {
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[3];
                 }
-                if (duck1.x == 700) {
-                    this.score += 3;
+                if (duck1.x == 400) {
+                    this.score += values[4];
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
+                }
+                if (duck1.x == 740) {
+                    this.score += values[9];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 900) {
+                    this.score += values[12];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 850) {
+                    this.score += values[11];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
             })
             .on("pointerover", () => stone5.setScale(0.5))
             .on("pointerout", () => stone5.setScale(0.4));
+        this.add.text(790, 375, "stone5");
 
         let stone6 = this.add
             .image(400, 525, "stone")
@@ -275,6 +310,7 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone6.setScale(0.5))
             .on("pointerout", () => stone6.setScale(0.4));
+        this.add.text(400, 535, "stone6");
 
         let stone7 = this.add
             .image(900, 450, "stone")
@@ -294,6 +330,7 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone6.setScale(0.5))
             .on("pointerout", () => stone6.setScale(0.4));
+        this.add.text(900, 450, "stone7");
 
         let stone8 = this.add
             .image(850, 575, "stone")
@@ -313,6 +350,7 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone8.setScale(0.5))
             .on("pointerout", () => stone8.setScale(0.4));
+        this.add.text(850, 575, "stone8");
 
         const stones = [
             stone1,
