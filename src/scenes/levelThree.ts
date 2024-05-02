@@ -72,7 +72,7 @@ export default class levelThree extends Phaser.Scene {
             const randomList: number[] = [];
             for (let i = 0; i < 15; i++) {
                 const randomNumber =
-                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                 randomList.push(randomNumber);
             }
             return randomList;
@@ -173,7 +173,7 @@ export default class levelThree extends Phaser.Scene {
 
         this.scoreText = this.add.text(25, 70, "Total Length: " + this.score, {
             fontFamily: "Arial Black",
-            fontSize: "70px",
+            fontSize: "40px",
             color: "#ffffe0",
         });
         this.scoreText.setStroke("#ffd700", 16);
