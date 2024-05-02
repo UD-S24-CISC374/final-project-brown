@@ -1,8 +1,11 @@
 import Phaser from "phaser";
 export default class levelOne extends Phaser.Scene {
-    private stone?: Phaser.Physics.Arcade.StaticGroup;
+    //private stone?: Phaser.Physics.Arcade.StaticGroup;
     source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
     target: Phaser.Math.Vector2;
+    //private duck1!: Phaser.GameObjects.Container;
+    private score: number = 0;
+    private scoreText?: Phaser.GameObjects.Text;
     constructor() {
         super({ key: "levelOne" });
     }
@@ -11,8 +14,6 @@ export default class levelOne extends Phaser.Scene {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
-
-        this.add;
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
@@ -30,8 +31,14 @@ export default class levelOne extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
-        this.add.image(150, 500, "duck").setScale(0.4);
-        this.add.image(950, 250, "duck").setScale(0.4);
+        this.scoreText = this.add.text(25, 75, "Path Length: 0", {
+            fontFamily: "Arial Black",
+            fontSize: "40px",
+            color: "#ffffe0",
+        });
+
+        //this.add.image(150, 500, "duck").setScale(0.4);
+        //this.add.image(950, 250, "duck").setScale(0.4);
 
         // connection lines
         const graphics = this.add.graphics();
@@ -46,15 +53,126 @@ export default class levelOne extends Phaser.Scene {
         graphics.lineTo(700, 600);
         graphics.strokePath();
 
-        // add stones
-        this.stone = this.physics.add.staticGroup();
+        let duck1 = this.add.image(150, 500, "duck");
+        let duck2 = this.add.image(950, 250, "duck");
 
-        const stoneCoordinates = [
-            { x: 500, y: 400 },
-            { x: 275, y: 500 },
-            { x: 700, y: 600 },
-            { x: 750, y: 450 },
-        ];
+        duck2
+            .setScale(0.4)
+            .setInteractive()
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    this.score += 1;
+                    duck1
+                        .setX(duck2.x + 10)
+                        .setY(duck2.y + 10)
+                        .setDepth(1);
+                }
+                if (duck1.x == 750) {
+                    this.score += 2;
+                    duck1
+                        .setX(duck2.x + 10)
+                        .setY(duck2.y + 10)
+                        .setDepth(1);
+                }
+                this.scoreText?.setText("Path Length" + this.score);
+                //if (this.score > 3) {
+
+                //}
+            });
+        duck1.setScale(0.4);
+
+        let stone1 = this.add
+            .image(500, 400, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .on("pointerdown", () => {
+                if (duck1.x == 700) {
+                    this.score = +2;
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 750) {
+                    this.score += 3;
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                this.scoreText?.setText("Path Length: " + this.score);
+            })
+            .on("pointerover", () => stone1.setScale(0.5))
+            .on("pointerout", () => stone1.setScale(0.4));
+
+        let stone2 = this.add
+            .image(275, 500, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 700) {
+                    duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 750) {
+                    this.score += 3;
+                    duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone2.setScale(0.5))
+            .on("pointerout", () => stone2.setScale(0.4));
+
+        let stone3 = this.add
+            .image(700, 600, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 750) {
+                    this.score += 3;
+                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone2.setScale(0.5))
+            .on("pointerout", () => stone2.setScale(0.4));
+
+        let stone4 = this.add
+            .image(750, 450, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 700) {
+                    this.score += 3;
+                    duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone2.setScale(0.5))
+            .on("pointerout", () => stone2.setScale(0.4));
+
+        const stones = [stone1, stone2, stone3, stone4];
+        stones.forEach((stone) => {
+            stone.setInteractive().on("pointerdown", () => {
+                duck1.setPosition(stone.x, stone.y).setDepth(1);
+                if (duck1.x == 275 || duck1.x == 750) {
+                    this.score += 3;
+                } else if (duck1.x == 700) {
+                    this.score += 2;
+                } else {
+                    this.score += 1;
+                }
+                this.scoreText?.setText("Path Length: " + this.score);
+            });
+        });
+
+        //this.stone = this.physics.add.staticGroup();
 
         function generateValues(): number[] {
             const randomList: number[] = [];
@@ -87,117 +205,7 @@ export default class levelOne extends Phaser.Scene {
             fontSize: "30px",
             color: "000000",
         });
-
-        stoneCoordinates.forEach((coord) => {
-            this.stone!.create(coord.x, coord.y, "stone")
-                .setScale(0.5, 0.4)
-                .refreshBody();
-        });
-
-        this.stone!.getChildren().forEach((stone) => {
-            const stoneImage = stone as Phaser.GameObjects.Image;
-            const button = stoneImage.setInteractive();
-            button.on("pointerdown", () => {
-                // Stop the duck's movement
-                this.source.body.setVelocity(0);
-                this.source.body.reset(stoneImage.x, stoneImage.y);
-            });
-        });
-        this.source = this.physics.add.image(100, 300, "duck").setScale(0.4);
-        this.target = new Phaser.Math.Vector2();
-
-        this.input.on("pointerdown", (pointer: { x: number; y: number }) => {
-            this.target.x = pointer.x;
-            this.target.y = pointer.y;
-
-            this.physics.moveToObject(this.source, this.target, 400);
-        });
-
-        // dijkstras algorithm
-        /*const stonePaths = [
-            [[275, 500], [500, 400], values[1]],
-            [[500, 400], [700, 600], values[5]],
-            [[700, 600], [750, 450], values[3]],
-            [[500, 400], [750, 450], values[4]],
-            [[275, 500], [700, 600], values[2]],
-
-            // Add more paths as needed
-        ];*/
-
-        // Function to find the index of the stone with the smallest distance
-        /*function dijkstra(start: number[]): Record<string, number> {
-            const distances: Record<string, number> = {}; // Store distances from start node
-            const visited: Record<string, boolean> = {}; // Track visited nodes
-
-            // Initialize distances
-            for (const path of stonePaths) {
-                const [node1, node2, length] = path;
-                distances[`${node1}`] = Infinity;
-                distances[`${node2}`] = Infinity;
-            }
-            distances[`${start[0]},${start[1]}`] = 0; // Distance from start to start is 0
-
-            // Helper function to get the node with the smallest distance
-            function getClosestNode(): string | null {
-                let minDistance = Infinity;
-                let closestNode: string | null = null;
-                for (const node in distances) {
-                    if (!visited[node] && distances[node] < minDistance) {
-                        minDistance = distances[node];
-                        closestNode = node;
-                    }
-                }
-                return closestNode;
-            }
-
-            // Main loop
-           /* while (
-                Object.keys(visited).length < Object.keys(distances).length
-            ) {
-                const currentNode = getClosestNode();
-                if (currentNode === null) break; // No more reachable nodes
-                visited[currentNode] = true;
-                for (const path of stonePaths) {
-                    const [node1, node2, length] = path;
-                    if (
-                        `${node1[0]},${node1[1]}` === currentNode ||
-                        `${node2[0]},${node2[1]}` === currentNode
-                    ) {
-                        const neighbor =
-                            `${node1[0]},${node1[1]}` === currentNode
-                                ? `${node2[0]},${node2[1]}`
-                                : `${node1[0]},${node1[1]}`;
-                        const totalDistance = distances[currentNode] + length;
-                        if (totalDistance < distances[neighbor]) {
-                            distances[neighbor] = totalDistance;
-                        }
-                    }
-                }
-            }
-
-            return distances;
-        }
-
-        // Usage
-        const startNode = [275, 500]; // Choose a starting stone
-        const shortestDistances = dijkstra(startNode);
-        console.log(shortestDistances);
-    */
     }
 
-    update() {
-        const tolerance = 4;
-        const distance = Phaser.Math.Distance.BetweenPoints(
-            this.source,
-            this.target
-        );
-
-        if (this.source.body.speed > 0) {
-            //this.distanceText.setText(`Distance: ${distance}`);
-
-            if (distance < tolerance) {
-                this.source.body.reset(this.target.x, this.target.y);
-            }
-        }
-    }
+    update() {}
 }
