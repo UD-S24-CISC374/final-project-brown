@@ -60,12 +60,13 @@ export default class levelOne extends Phaser.Scene {
         graphics.strokePath();
 
         // add stones
-        this.stone = this.physics.add.staticGroup();
+        /*this.stone = this.physics.add.staticGroup();
         this.add.text(275, 500, "Start");
         const stone1 = this.stone.create(500, 400, "stone");
         const stone2 = this.stone.create(275, 500, "stone");
         const stone3 = this.stone.create(700, 600, "stone");
         const stone4 = this.stone.create(750, 450, "stone");
+        */
         this.add.text(220, 450, "Start");
 
         this.add.text(760, 490, "End");
@@ -188,7 +189,6 @@ export default class levelOne extends Phaser.Scene {
             });
         });
 
-
         //this.stone = this.physics.add.staticGroup();
 
         function generateValues(): number[] {
@@ -222,7 +222,6 @@ export default class levelOne extends Phaser.Scene {
             fontSize: "30px",
             color: "000000",
         });
-
 
         // dijkstras
 
