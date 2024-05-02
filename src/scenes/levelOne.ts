@@ -118,7 +118,7 @@ export default class levelOne extends Phaser.Scene {
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 if (duck1.x == 750) {
-                    this.score += values[1];
+                    this.score += values[0];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
@@ -135,7 +135,7 @@ export default class levelOne extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 700) {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
-                    this.score += 0;
+                    this.score += values[1];
                 }
                 if (duck1.x == 750) {
                     this.score += values[2];
