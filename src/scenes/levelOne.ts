@@ -1,4 +1,10 @@
 import Phaser from "phaser";
+
+interface Edge {
+    start: string;
+    end: string;
+    weight: number;
+}
 export default class levelOne extends Phaser.Scene {
     private stone?: Phaser.Physics.Arcade.StaticGroup;
     constructor() {
@@ -46,11 +52,14 @@ export default class levelOne extends Phaser.Scene {
 
         // add stones
         this.stone = this.physics.add.staticGroup();
-
+        this.add.text(275, 500, "Start");
         const stone1 = this.stone.create(500, 400, "stone");
         const stone2 = this.stone.create(275, 500, "stone");
         const stone3 = this.stone.create(700, 600, "stone");
         const stone4 = this.stone.create(750, 450, "stone");
+        this.add.text(220, 450, "Start");
+
+        this.add.text(760, 490, "End");
 
         stone1.setScale(0.5, 0.4);
         stone2.setScale(0.5, 0.4);
@@ -61,7 +70,7 @@ export default class levelOne extends Phaser.Scene {
             const randomList: number[] = [];
             for (let i = 0; i < 10; i++) {
                 const randomNumber =
-                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                 randomList.push(randomNumber);
             }
             return randomList;
@@ -89,76 +98,83 @@ export default class levelOne extends Phaser.Scene {
             color: "000000",
         });
 
-        // dijkstras algorithm
-        /*const stonePaths = [
-            [[275, 500], [500, 400], values[1]],
-            [[500, 400], [700, 600], values[5]],
-            [[700, 600], [750, 450], values[3]],
-            [[500, 400], [750, 450], values[4]],
-            [[275, 500], [700, 600], values[2]],
+        // dijkstras
 
-            // Add more paths as needed
-        ];*/
+        const vertices: string[] = ["stone1", "stone2", "stone3", "stone4"];
+        const edges: Edge[] = [
+            { start: "stone1", end: "stone2", weight: values[0] },
+            { start: "stone1", end: "stone3", weight: values[1] },
+            { start: "stone2", end: "stone4", weight: values[2] },
+            { start: "stone2", end: "stone3", weight: values[3] },
+            { start: "stone3", end: "stone4", weight: values[4] },
+            // Add more edges as needed
+        ];
 
-        // Function to find the index of the stone with the smallest distance
-        /*function dijkstra(start: number[]): Record<string, number> {
-            const distances: Record<string, number> = {}; // Store distances from start node
-            const visited: Record<string, boolean> = {}; // Track visited nodes
+        /* function getLocation{
+            let x = duck.x;
+            let y = duck.y;
+        }
+        */
 
-            // Initialize distances
-            for (const path of stonePaths) {
-                const [node1, node2, length] = path;
-                distances[`${node1}`] = Infinity;
-                distances[`${node2}`] = Infinity;
+        // Dijkstra's algorithm function
+        function dijkstra(
+            graph: Record<string, Edge[]>,
+            start: string
+        ): Record<string, number> {
+            const distances: Record<string, number> = {};
+            const previous: Record<string, string | null> = {};
+            const queue: string[] = [];
+            for (let vertex of vertices) {
+                distances[vertex] = Infinity;
+                previous[vertex] = null;
+                queue.push(vertex);
             }
-            distances[`${start[0]},${start[1]}`] = 0; // Distance from start to start is 0
+            distances[start] = 0;
 
-            // Helper function to get the node with the smallest distance
-            function getClosestNode(): string | null {
-                let minDistance = Infinity;
-                let closestNode: string | null = null;
-                for (const node in distances) {
-                    if (!visited[node] && distances[node] < minDistance) {
-                        minDistance = distances[node];
-                        closestNode = node;
-                    }
-                }
-                return closestNode;
-            }
+            while (queue.length) {
+                queue.sort((a, b) => distances[a] - distances[b]);
+                const smallest = queue.shift();
 
-            // Main loop
-           /* while (
-                Object.keys(visited).length < Object.keys(distances).length
-            ) {
-                const currentNode = getClosestNode();
-                if (currentNode === null) break; // No more reachable nodes
-                visited[currentNode] = true;
-                for (const path of stonePaths) {
-                    const [node1, node2, length] = path;
-                    if (
-                        `${node1[0]},${node1[1]}` === currentNode ||
-                        `${node2[0]},${node2[1]}` === currentNode
-                    ) {
-                        const neighbor =
-                            `${node1[0]},${node1[1]}` === currentNode
-                                ? `${node2[0]},${node2[1]}`
-                                : `${node1[0]},${node1[1]}`;
-                        const totalDistance = distances[currentNode] + length;
-                        if (totalDistance < distances[neighbor]) {
-                            distances[neighbor] = totalDistance;
-                        }
+                if (!smallest) break;
+
+                for (let neighbor of graph[smallest]) {
+                    const alt = distances[smallest] + neighbor.weight;
+                    if (alt < distances[neighbor.end]) {
+                        distances[neighbor.end] = alt;
+                        previous[neighbor.end] = smallest;
                     }
                 }
             }
-
             return distances;
         }
+        console.log(dijkstra);
 
-        // Usage
-        const startNode = [275, 500]; // Choose a starting stone
-        const shortestDistances = dijkstra(startNode);
-        console.log(shortestDistances);
-    */
+        // Build adjacency list representation of the graph
+        const adjacencyList: Record<string, Edge[]> = {};
+        vertices.forEach((vertex) => {
+            adjacencyList[vertex] = [];
+        });
+        edges.forEach((edge) => {
+            adjacencyList[edge.start].push({
+                start: edge.start,
+                end: edge.end,
+                weight: edge.weight,
+            });
+            adjacencyList[edge.end].push({
+                start: edge.end,
+                end: edge.start,
+                weight: edge.weight,
+            }); // For undirected graph
+        });
+
+        // Run Dijkstra's algorithm from a starting vertex
+        const startVertex = "stone1"; // Choose your starting vertex
+        const shortestDistances = dijkstra(adjacencyList, startVertex);
+        console.log(
+            "Shortest distances from vertex",
+            startVertex + ":",
+            shortestDistances
+        );
     }
 
     update() {}
