@@ -93,7 +93,7 @@ export default class levelTwo extends Phaser.Scene {
             const randomList: number[] = [];
             for (let i = 0; i < 20; i++) {
                 const randomNumber =
-                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                 randomList.push(randomNumber);
             }
             return randomList;

@@ -1,4 +1,10 @@
 import Phaser from "phaser";
+
+interface Edge {
+    start: string;
+    end: string;
+    weight: number;
+}
 export default class levelOne extends Phaser.Scene {
     //private stone?: Phaser.Physics.Arcade.StaticGroup;
     source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -53,6 +59,16 @@ export default class levelOne extends Phaser.Scene {
         graphics.lineTo(700, 600);
         graphics.strokePath();
 
+        // add stones
+        this.stone = this.physics.add.staticGroup();
+        this.add.text(275, 500, "Start");
+        const stone1 = this.stone.create(500, 400, "stone");
+        const stone2 = this.stone.create(275, 500, "stone");
+        const stone3 = this.stone.create(700, 600, "stone");
+        const stone4 = this.stone.create(750, 450, "stone");
+        this.add.text(220, 450, "Start");
+
+        this.add.text(760, 490, "End");
         let duck1 = this.add.image(150, 500, "duck");
         let duck2 = this.add.image(950, 250, "duck");
 
@@ -172,13 +188,14 @@ export default class levelOne extends Phaser.Scene {
             });
         });
 
+
         //this.stone = this.physics.add.staticGroup();
 
         function generateValues(): number[] {
             const randomList: number[] = [];
             for (let i = 0; i < 10; i++) {
                 const randomNumber =
-                    Math.floor(Math.random() * (20 - 1 + 1)) + 1;
+                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
                 randomList.push(randomNumber);
             }
             return randomList;
@@ -205,6 +222,85 @@ export default class levelOne extends Phaser.Scene {
             fontSize: "30px",
             color: "000000",
         });
+
+
+        // dijkstras
+
+        const vertices: string[] = ["stone1", "stone2", "stone3", "stone4"];
+        const edges: Edge[] = [
+            { start: "stone1", end: "stone2", weight: values[0] },
+            { start: "stone1", end: "stone3", weight: values[1] },
+            { start: "stone2", end: "stone4", weight: values[2] },
+            { start: "stone2", end: "stone3", weight: values[3] },
+            { start: "stone3", end: "stone4", weight: values[4] },
+            // Add more edges as needed
+        ];
+
+        /* function getLocation{
+            let x = duck.x;
+            let y = duck.y;
+        }
+        */
+
+        // Dijkstra's algorithm function
+        function dijkstra(
+            graph: Record<string, Edge[]>,
+            start: string
+        ): Record<string, number> {
+            const distances: Record<string, number> = {};
+            const previous: Record<string, string | null> = {};
+            const queue: string[] = [];
+            for (let vertex of vertices) {
+                distances[vertex] = Infinity;
+                previous[vertex] = null;
+                queue.push(vertex);
+            }
+            distances[start] = 0;
+
+            while (queue.length) {
+                queue.sort((a, b) => distances[a] - distances[b]);
+                const smallest = queue.shift();
+
+                if (!smallest) break;
+
+                for (let neighbor of graph[smallest]) {
+                    const alt = distances[smallest] + neighbor.weight;
+                    if (alt < distances[neighbor.end]) {
+                        distances[neighbor.end] = alt;
+                        previous[neighbor.end] = smallest;
+                    }
+                }
+            }
+            return distances;
+        }
+        console.log(dijkstra);
+
+        // Build adjacency list representation of the graph
+        const adjacencyList: Record<string, Edge[]> = {};
+        vertices.forEach((vertex) => {
+            adjacencyList[vertex] = [];
+        });
+        edges.forEach((edge) => {
+            adjacencyList[edge.start].push({
+                start: edge.start,
+                end: edge.end,
+                weight: edge.weight,
+            });
+            adjacencyList[edge.end].push({
+                start: edge.end,
+                end: edge.start,
+                weight: edge.weight,
+            }); // For undirected graph
+        });
+
+        // Run Dijkstra's algorithm from a starting vertex
+        const startVertex = "stone1"; // Choose your starting vertex
+        const shortestDistances = dijkstra(adjacencyList, startVertex);
+        console.log(
+            "Shortest distances from vertex",
+            startVertex + ":",
+            shortestDistances
+        );
     }
 
     update() {}
