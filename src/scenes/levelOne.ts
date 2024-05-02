@@ -123,7 +123,7 @@ export default class levelOne extends Phaser.Scene {
                 }
                 if (duck1.x == 275) {
                     this.score += values[0];
-                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
             })
