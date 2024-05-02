@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 export default class levelOne extends Phaser.Scene {
     private stone?: Phaser.Physics.Arcade.StaticGroup;
+    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+    target: Phaser.Math.Vector2;
     constructor() {
         super({ key: "levelOne" });
     }
@@ -47,15 +49,12 @@ export default class levelOne extends Phaser.Scene {
         // add stones
         this.stone = this.physics.add.staticGroup();
 
-        const stone1 = this.stone.create(500, 400, "stone");
-        const stone2 = this.stone.create(275, 500, "stone");
-        const stone3 = this.stone.create(700, 600, "stone");
-        const stone4 = this.stone.create(750, 450, "stone");
-
-        stone1.setScale(0.5, 0.4);
-        stone2.setScale(0.5, 0.4);
-        stone3.setScale(0.5, 0.4);
-        stone4.setScale(0.5, 0.4);
+        const stoneCoordinates = [
+            { x: 500, y: 400 },
+            { x: 275, y: 500 },
+            { x: 700, y: 600 },
+            { x: 750, y: 450 },
+        ];
 
         function generateValues(): number[] {
             const randomList: number[] = [];
@@ -87,6 +86,31 @@ export default class levelOne extends Phaser.Scene {
         this.add.text(550, 450, values[4].toString(), {
             fontSize: "30px",
             color: "000000",
+        });
+
+        stoneCoordinates.forEach((coord) => {
+            this.stone!.create(coord.x, coord.y, "stone")
+                .setScale(0.5, 0.4)
+                .refreshBody();
+        });
+
+        this.stone!.getChildren().forEach((stone) => {
+            const stoneImage = stone as Phaser.GameObjects.Image;
+            const button = stoneImage.setInteractive();
+            button.on("pointerdown", () => {
+                // Stop the duck's movement
+                this.source.body.setVelocity(0);
+                this.source.body.reset(stoneImage.x, stoneImage.y);
+            });
+        });
+        this.source = this.physics.add.image(100, 300, "duck").setScale(0.4);
+        this.target = new Phaser.Math.Vector2();
+
+        this.input.on("pointerdown", (pointer: { x: number; y: number }) => {
+            this.target.x = pointer.x;
+            this.target.y = pointer.y;
+
+            this.physics.moveToObject(this.source, this.target, 400);
         });
 
         // dijkstras algorithm
@@ -161,5 +185,19 @@ export default class levelOne extends Phaser.Scene {
     */
     }
 
-    update() {}
+    update() {
+        const tolerance = 4;
+        const distance = Phaser.Math.Distance.BetweenPoints(
+            this.source,
+            this.target
+        );
+
+        if (this.source.body.speed > 0) {
+            //this.distanceText.setText(`Distance: ${distance}`);
+
+            if (distance < tolerance) {
+                this.source.body.reset(this.target.x, this.target.y);
+            }
+        }
+    }
 }
