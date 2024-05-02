@@ -219,15 +219,6 @@ export default class levelTwo extends Phaser.Scene {
             });
         });
 
-        /*const stoneCoordinates = [
-            { x: 500, y: 400 },
-            { x: 275, y: 435 },
-            { x: 650, y: 600 },
-            { x: 740, y: 480 },
-            { x: 790, y: 375 },
-            { x: 400, y: 525 },
-        ]; */
-
         function generateValues(): number[] {
             const randomList: number[] = [];
             for (let i = 0; i < 20; i++) {

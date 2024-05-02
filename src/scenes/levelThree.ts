@@ -135,19 +135,7 @@ export default class levelThree extends Phaser.Scene {
             fontSize: "20px",
             color: "000000",
         });
-        // Add stones and make them interactive
-        //this.stone = this.physics.add.staticGroup();
 
-        /*const stoneCoordinates = [
-            { x: 500, y: 400 },
-            { x: 275, y: 435 },
-            { x: 650, y: 600 },
-            { x: 740, y: 480 },
-            { x: 790, y: 375 },
-            { x: 400, y: 525 },
-            { x: 900, y: 450 },
-            { x: 850, y: 575 },
-        ]; */
         let duck1 = this.add.image(150, 500, "duck");
         let duck2 = this.add.image(950, 250, "duck");
         duck2
