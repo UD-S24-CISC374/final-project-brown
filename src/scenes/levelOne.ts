@@ -1,10 +1,11 @@
 import Phaser from "phaser";
 
-interface Edge {
+/*interface Edge {
     start: string;
     end: string;
     weight: number;
 }
+*/
 export default class levelOne extends Phaser.Scene {
     //private stone?: Phaser.Physics.Arcade.StaticGroup;
     source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
@@ -114,6 +115,13 @@ export default class levelOne extends Phaser.Scene {
             [values[2] + values[4] + values[3]],
             [values[0] + values[4] + values[2]],
         ];
+        function getPathValue(path: number[]): number {
+            let value: number = 0;
+            for (let v of path) {
+                value += v;
+            }
+            return value;
+        }
 
         function shortestPath(paths: number[][]): {
             path: number[];
@@ -134,13 +142,6 @@ export default class levelOne extends Phaser.Scene {
         }
 
         // Helper function to calculate the value of a path
-        function getPathValue(path: number[]): number {
-            let value: number = 0;
-            for (let v of path) {
-                value += v;
-            }
-            return value;
-        }
 
         let correct = shortestPath(paths);
         let tries = 0;
