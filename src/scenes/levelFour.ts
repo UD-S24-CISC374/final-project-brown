@@ -1,6 +1,8 @@
 import Phaser from "phaser";
 export default class levelFour extends Phaser.Scene {
     private stone?: Phaser.Physics.Arcade.StaticGroup;
+    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+    target: Phaser.Math.Vector2;
 
     constructor() {
         super({ key: "levelFour" });
@@ -123,22 +125,56 @@ export default class levelFour extends Phaser.Scene {
         // add stones
         this.stone = this.physics.add.staticGroup();
 
-        const stone1 = this.stone.create(500, 400, "stone");
-        const stone2 = this.stone.create(275, 435, "stone");
-        const stone3 = this.stone.create(650, 600, "stone");
-        const stone4 = this.stone.create(740, 480, "stone");
-        const stone5 = this.stone.create(790, 375, "stone");
-        const stone6 = this.stone.create(400, 525, "stone");
-        const stone7 = this.stone.create(900, 450, "stone");
-        const stone8 = this.stone.create(850, 575, "stone");
+        const stoneCoordinates = [
+            { x: 500, y: 400 },
+            { x: 275, y: 435 },
+            { x: 650, y: 600 },
+            { x: 740, y: 480 },
+            { x: 790, y: 375 },
+            { x: 400, y: 525 },
+            { x: 900, y: 450 },
+            { x: 850, y: 575 },
+        ];
 
-        stone1.setScale(0.5, 0.4);
-        stone2.setScale(0.5, 0.4);
-        stone3.setScale(0.5, 0.4);
-        stone4.setScale(0.5, 0.4);
-        stone5.setScale(0.5, 0.4);
-        stone6.setScale(0.5, 0.4);
-        stone7.setScale(0.5, 0.4);
-        stone8.setScale(0.5, 0.4);
+        stoneCoordinates.forEach((coord) => {
+            this.stone!.create(coord.x, coord.y, "stone")
+                .setScale(0.5, 0.4)
+                .refreshBody();
+        });
+
+        this.stone!.getChildren().forEach((stone) => {
+            const stoneImage = stone as Phaser.GameObjects.Image;
+            const button = stoneImage.setInteractive();
+            button.on("pointerdown", () => {
+                // Stop the duck's movement
+                this.source.body.setVelocity(0);
+                this.source.body.reset(stoneImage.x, stoneImage.y);
+            });
+        });
+        this.source = this.physics.add.image(100, 300, "duck").setScale(0.4);
+        this.target = new Phaser.Math.Vector2();
+
+        this.input.on("pointerdown", (pointer: { x: number; y: number }) => {
+            this.target.x = pointer.x;
+            this.target.y = pointer.y;
+
+            this.physics.moveToObject(this.source, this.target, 400);
+        });
+    }
+
+    update() {
+        const tolerance = 4;
+        const distance = Phaser.Math.Distance.BetweenPoints(
+            this.source,
+            this.target
+        );
+
+        if (this.source.body.speed > 0) {
+            //this.distanceText.setText(`Distance: ${distance}`);
+
+            if (distance < tolerance) {
+                this.source.body.reset(this.target.x, this.target.y);
+            }
+        }
     }
 }
