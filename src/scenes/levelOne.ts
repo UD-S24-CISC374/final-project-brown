@@ -68,7 +68,6 @@ export default class levelOne extends Phaser.Scene {
         const stone4 = this.stone.create(750, 450, "stone");
         */
         this.add.text(220, 450, "Start");
-
         this.add.text(760, 490, "End");
         let duck1 = this.add.image(150, 500, "duck");
         let duck2 = this.add.image(950, 250, "duck");
@@ -97,6 +96,16 @@ export default class levelOne extends Phaser.Scene {
                 //}
             });
         duck1.setScale(0.4);
+        function generateValues(): number[] {
+            const randomList: number[] = [];
+            for (let i = 0; i < 10; i++) {
+                const randomNumber =
+                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+                randomList.push(randomNumber);
+            }
+            return randomList;
+        }
+        const values = generateValues();
 
         let stone1 = this.add
             .image(500, 400, "stone")
@@ -164,11 +173,19 @@ export default class levelOne extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[3];
                 }
                 if (duck1.x == 700) {
-                    this.score += 3;
+                    this.score += values[4];
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
+                    /*if(totalPathLength == expectedPathLength){
+                        start.scene(levelOnePass)
+                    }
+                    else{
+                        this.add.text("try another problem")
+                        start.scene(levelOne)
+                    }
+                    */
                 }
             })
             .on("pointerover", () => stone4.setScale(0.5))
@@ -179,9 +196,9 @@ export default class levelOne extends Phaser.Scene {
             stone.setInteractive().on("pointerdown", () => {
                 duck1.setPosition(stone.x, stone.y).setDepth(1);
                 if (duck1.x == 275 || duck1.x == 750) {
-                    this.score += 3;
+                    this.score += 0;
                 } else if (duck1.x == 700) {
-                    this.score += 2;
+                    this.score += values[4];
                 } else {
                     this.score += 1;
                 }
@@ -191,16 +208,6 @@ export default class levelOne extends Phaser.Scene {
 
         //this.stone = this.physics.add.staticGroup();
 
-        function generateValues(): number[] {
-            const randomList: number[] = [];
-            for (let i = 0; i < 10; i++) {
-                const randomNumber =
-                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-                randomList.push(randomNumber);
-            }
-            return randomList;
-        }
-        const values = generateValues();
         console.log(values);
         this.add.text(387, 450, values[0].toString(), {
             fontSize: "30px",
