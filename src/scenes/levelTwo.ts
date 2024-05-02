@@ -32,7 +32,7 @@ export default class levelTwo extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
-        this.add.image(150, 500, "duck").setScale(0.4);
+        //this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(950, 250, "duck").setScale(0.4);
 

@@ -1,8 +1,10 @@
 import Phaser from "phaser";
 export default class levelFour extends Phaser.Scene {
     private stone?: Phaser.Physics.Arcade.StaticGroup;
-    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    target: Phaser.Math.Vector2;
+    //source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+    //target: Phaser.Math.Vector2;
+    private score: number = 0;
+    private scoreText?: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "levelFour" });
@@ -30,9 +32,9 @@ export default class levelFour extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
-        this.add.image(150, 500, "duck").setScale(0.4);
+        //this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
-        this.add.image(75, 550, "duck").setScale(0.4);
+        this.add.image(80, 550, "duck").setScale(0.4);
         this.add.image(100, 550, "duck").setScale(0.4);
         this.add.image(950, 250, "duck").setScale(0.4);
 
@@ -123,24 +125,213 @@ export default class levelFour extends Phaser.Scene {
             color: "000000",
         });
         // add stones
-        this.stone = this.physics.add.staticGroup();
+        let duck1 = this.add.image(150, 500, "duck");
+        let duck2 = this.add.image(950, 250, "duck");
+        duck2
+            .setScale(0.4)
+            .setInteractive()
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    this.score += 1;
+                    duck1
+                        .setX(duck2.x + 10)
+                        .setY(duck2.y + 10)
+                        .setDepth(1);
+                }
+                if (duck1.x == 750) {
+                    this.score += 2;
+                    duck1
+                        .setX(duck2.x + 10)
+                        .setY(duck2.y + 10)
+                        .setDepth(1);
+                }
+                this.scoreText?.setText("Path Length" + this.score);
+                //if (this.score > 3) {
 
-        const stone1 = this.stone.create(500, 400, "stone");
-        const stone2 = this.stone.create(275, 435, "stone");
-        const stone3 = this.stone.create(650, 600, "stone");
-        const stone4 = this.stone.create(740, 480, "stone");
-        const stone5 = this.stone.create(790, 375, "stone");
-        const stone6 = this.stone.create(400, 525, "stone");
-        const stone7 = this.stone.create(900, 450, "stone");
-        const stone8 = this.stone.create(850, 575, "stone");
+                //}
+            });
+        duck1.setScale(0.4);
 
-        stone1.setScale(0.5, 0.4);
-        stone2.setScale(0.5, 0.4);
-        stone3.setScale(0.5, 0.4);
-        stone4.setScale(0.5, 0.4);
-        stone5.setScale(0.5, 0.4);
-        stone6.setScale(0.5, 0.4);
-        stone7.setScale(0.5, 0.4);
-        stone8.setScale(0.5, 0.4);
+        let stone1 = this.add
+            .image(500, 400, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .on("pointerdown", () => {
+                if (duck1.x == 700) {
+                    this.score = +2;
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 750) {
+                    this.score += 3;
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                this.scoreText?.setText("Path Length: " + this.score);
+            })
+            .on("pointerover", () => stone1.setScale(0.5))
+            .on("pointerout", () => stone1.setScale(0.4));
+
+        let stone2 = this.add
+            .image(275, 435, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 700) {
+                    duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 750) {
+                    this.score += 3;
+                    duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone2.setScale(0.5))
+            .on("pointerout", () => stone2.setScale(0.4));
+
+        let stone3 = this.add
+            .image(650, 600, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 750) {
+                    this.score += 3;
+                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone3.setScale(0.5))
+            .on("pointerout", () => stone3.setScale(0.4));
+
+        let stone4 = this.add
+            .image(740, 480, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 700) {
+                    this.score += 3;
+                    duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone4.setScale(0.5))
+            .on("pointerout", () => stone4.setScale(0.4));
+
+        let stone5 = this.add
+            .image(790, 375, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 700) {
+                    this.score += 3;
+                    duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone5.setScale(0.5))
+            .on("pointerout", () => stone5.setScale(0.4));
+
+        let stone6 = this.add
+            .image(400, 525, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 700) {
+                    this.score += 3;
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone6.setScale(0.5))
+            .on("pointerout", () => stone6.setScale(0.4));
+
+        let stone7 = this.add
+            .image(900, 450, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 700) {
+                    this.score += 3;
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone6.setScale(0.5))
+            .on("pointerout", () => stone6.setScale(0.4));
+
+        let stone8 = this.add
+            .image(850, 575, "stone")
+            .setScale(0.5, 0.4)
+            .setAngle(0)
+            .setInteractive()
+            .setDepth(0)
+            .on("pointerdown", () => {
+                if (duck1.x == 275) {
+                    duck1.setX(stone8.x).setY(stone8.y).setDepth(1);
+                    this.score += 3;
+                }
+                if (duck1.x == 700) {
+                    this.score += 3;
+                    duck1.setX(stone8.x).setY(stone8.y).setDepth(1);
+                }
+            })
+            .on("pointerover", () => stone8.setScale(0.5))
+            .on("pointerout", () => stone8.setScale(0.4));
+
+        const stones = [
+            stone1,
+            stone2,
+            stone3,
+            stone4,
+            stone5,
+            stone6,
+            stone7,
+            stone8,
+        ];
+        stones.forEach((stone) => {
+            stone.setInteractive().on("pointerdown", () => {
+                duck1.setPosition(stone.x, stone.y).setDepth(1);
+                if (duck1.x == 275 || duck1.x == 750) {
+                    this.score += 3;
+                } else if (duck1.x == 700) {
+                    this.score += 2;
+                } else {
+                    this.score += 1;
+                }
+                this.scoreText?.setText("Path Length: " + this.score);
+            });
+        });
+        this.scoreText = this.add.text(25, 70, "Total Length: " + this.score, {
+            fontFamily: "Arial Black",
+            fontSize: "40px",
+            color: "#ffffe0",
+        });
+        this.scoreText.setStroke("#ffd700", 16);
     }
 }
