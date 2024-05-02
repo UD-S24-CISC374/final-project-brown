@@ -107,6 +107,43 @@ export default class levelOne extends Phaser.Scene {
         }
         const values = generateValues();
 
+        let paths: number[][] = [
+            [values[0] + values[4]],
+            [values[1] + values[2]],
+            [values[2] + values[4] + values[3]],
+            [values[0] + values[4] + values[2]],
+        ];
+
+        function shortestPath(paths: number[][]): {
+            path: number[];
+            value: number;
+        } {
+            let shortestPath: number[] = paths[0]; // Assume the first path is the shortest initially
+            let shortestLength: number = getPathValue(paths[0]); // Get the value of the first path
+
+            for (let path of paths) {
+                let value: number = getPathValue(path);
+                if (value < shortestLength) {
+                    shortestPath = path;
+                    shortestLength = value;
+                }
+            }
+
+            return { path: shortestPath, value: shortestLength };
+        }
+
+        // Helper function to calculate the value of a path
+        function getPathValue(path: number[]): number {
+            let value: number = 0;
+            for (let v of path) {
+                value += v;
+            }
+            return value;
+        }
+
+        let correct = shortestPath(paths);
+        let tries = 0;
+
         let stone1 = this.add
             .image(500, 400, "stone")
             .setScale(0.5, 0.4)
@@ -186,14 +223,22 @@ export default class levelOne extends Phaser.Scene {
                 if (duck1.x == 700) {
                     this.score += values[2];
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                    /*if(totalPathLength == expectedPathLength){
-                        start.scene(levelOnePass)
+                    if (this.score === correct.value) {
+                        this.scene.start("levelOnePass");
+                    } /*else if (tries < 3) {
+                            this.score = 0;
+                            this.add.text(225, 350, "Not Quite, Try Again", {
+                                fontFamily: "Arial Black",
+                                fontSize: "70px",
+                                color: "#ffffe0",
+                            });
+                            tries++;
+                        } 
+                        */ else {
+                        this.add.text(200, 200, "try another problem");
+                        this.scene.start("levelOne");
+                        this.score = 0;
                     }
-                    else{
-                        this.add.text("try another problem")
-                        start.scene(levelOne)
-                    }
-                    */
                 }
             })
             .on("pointerover", () => stone4.setScale(0.5))
@@ -238,23 +283,24 @@ export default class levelOne extends Phaser.Scene {
             color: "000000",
         });
 
-        // dijkstras
+        /* dijkstras
 
         const vertices: string[] = ["stone1", "stone2", "stone3", "stone4"];
         const edges: Edge[] = [
-            { start: "stone1", end: "stone2", weight: values[0] },
-            { start: "stone1", end: "stone3", weight: values[1] },
-            { start: "stone2", end: "stone4", weight: values[2] },
-            { start: "stone2", end: "stone3", weight: values[3] },
-            { start: "stone3", end: "stone4", weight: values[4] },
+            { start: "stone2", end: "stone4", weight: values[0] + values[4] },
+            { start: "stone2", end: "stone4", weight: values[1] + values[2] },
+            {
+                start: "stone2",
+                end: "stone4",
+                weight: values[2] + values[4] + values[3],
+            },
+            {
+                start: "stone2",
+                end: "stone4",
+                weight: values[0] + values[4] + values[2],
+            },
             // Add more edges as needed
         ];
-
-        /* function getLocation{
-            let x = duck.x;
-            let y = duck.y;
-        }
-        */
 
         // Dijkstra's algorithm function
         function dijkstra(
@@ -314,7 +360,7 @@ export default class levelOne extends Phaser.Scene {
             "Shortest distances from vertex",
             startVertex + ":",
             shortestDistances
-        );
+        );*/
     }
 
     update() {}
