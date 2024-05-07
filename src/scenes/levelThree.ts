@@ -79,7 +79,6 @@ export default class levelThree extends Phaser.Scene {
             { x: 400, y: 525 },
             { x: 900, y: 450 },
             { x: 850, y: 575 },
-            { x: 790, y: 375 },
         ];
 
         graphics.beginPath();

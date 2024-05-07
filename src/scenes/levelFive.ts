@@ -121,7 +121,7 @@ export default class levelFive extends Phaser.Scene {
             fontSize: "20px",
             color: "000000",
         });
-        this.add.text(595, 450, values[4].toString(), {
+        this.add.text(330, 450, values[4].toString(), {
             fontSize: "20px",
             color: "000000",
         });
@@ -307,16 +307,16 @@ export default class levelFive extends Phaser.Scene {
             .setDepth(0)
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
-                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                    duck1.setX(stone7.x).setY(stone7.y).setDepth(1);
                     this.score += 3;
                 }
                 if (duck1.x == 700) {
                     this.score += 3;
-                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                    duck1.setX(stone7.x).setY(stone7.y).setDepth(1);
                 }
             })
-            .on("pointerover", () => stone6.setScale(0.5))
-            .on("pointerout", () => stone6.setScale(0.4));
+            .on("pointerover", () => stone7.setScale(0.5))
+            .on("pointerout", () => stone7.setScale(0.4));
 
         let stone8 = this.add
             .image(850, 575, "stone")

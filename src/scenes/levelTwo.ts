@@ -1,8 +1,6 @@
 import Phaser from "phaser";
 export default class levelTwo extends Phaser.Scene {
     private stone?: Phaser.Physics.Arcade.StaticGroup;
-    //source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    //target: Phaser.Math.Vector2;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
     private isMuted: boolean = false;
