@@ -25,13 +25,8 @@ export default class levelTwo extends Phaser.Scene {
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
-            .setDisplaySize(screenWidth, screenHeight)
-            // change when levels work
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.scene.start("levelTwoPass");
-            });
-
+            .setDisplaySize(screenWidth, screenHeight);
+        // change when levels work
         const levelName = this.add.text(25, 25, "Level 2", {
             fontFamily: "Arial Black",
             fontSize: "40px",
@@ -143,8 +138,14 @@ export default class levelTwo extends Phaser.Scene {
 
         // add stones
         //this.stone = this.physics.add.staticGroup();
-        this.add.text(220, 450, "Start");
-        this.add.text(780, 490, "End");
+        this.add.text(220, 375, "START", {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(780, 320, "END", {
+            fontSize: "30px",
+            color: "000000",
+        });
         let duck1 = this.add.image(150, 500, "duck");
         let duck2 = this.add.image(950, 250, "duck");
 
@@ -176,16 +177,20 @@ export default class levelTwo extends Phaser.Scene {
             .setAngle(0)
             .setInteractive()
             .on("pointerdown", () => {
-                if (duck1.x == 700) {
-                    this.score += values[4];
-                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
-                }
-                if (duck1.x == 750) {
-                    this.score += values[3];
-                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
-                }
                 if (duck1.x == 275) {
                     this.score += values[0];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 400) {
+                    this.score += values[5];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 650) {
+                    this.score += values[6];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 790) {
+                    this.score += values[8];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
@@ -204,9 +209,9 @@ export default class levelTwo extends Phaser.Scene {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
                     this.score += values[0];
                 }
-                if (duck1.x == 700) {
-                    this.score += values[1];
+                if (duck1.x == 400) {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
+                    this.score += values[1];
                 }
             })
             .on("pointerover", () => stone2.setScale(0.5))
@@ -219,16 +224,16 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 275) {
+                if (duck1.x == 740) {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
-                    this.score += values[1];
-                }
-                if (duck1.x == 750) {
-                    this.score += values[2];
-                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                    this.score += values[7];
                 }
                 if (duck1.x == 500) {
-                    this.score += values[4];
+                    this.score += values[6];
+                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                }
+                if (duck1.x == 400) {
+                    this.score += values[2];
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
                 }
             })
@@ -242,12 +247,12 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 500) {
+                if (duck1.x == 790) {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
                     this.score += values[3];
                 }
-                if (duck1.x == 700) {
-                    this.score += values[2];
+                if (duck1.x == 650) {
+                    this.score += values[7];
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
                 }
             })
@@ -261,7 +266,7 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 500) {
+                if (duck1.x == 740) {
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
                     this.score += values[3];
                 }
@@ -269,8 +274,8 @@ export default class levelTwo extends Phaser.Scene {
                     this.score += values[4];
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
                 }
-                if (duck1.x == 740) {
-                    this.score += values[9];
+                if (duck1.x == 500) {
+                    this.score += values[8];
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
                 }
                 if (this.score === correct.value) {
@@ -302,10 +307,18 @@ export default class levelTwo extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
                     duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[1];
                 }
-                if (duck1.x == 700) {
-                    this.score += 3;
+                if (duck1.x == 500) {
+                    this.score += values[5];
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                }
+                if (duck1.x == 790) {
+                    this.score += values[4];
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                }
+                if (duck1.x == 650) {
+                    this.score += values[2];
                     duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
                 }
             })
@@ -328,15 +341,42 @@ export default class levelTwo extends Phaser.Scene {
         });
 
         console.log(values);
-        this.add.text(387, 417, values[0].toString());
-        this.add.text(350, 470, values[1].toString());
-        this.add.text(529, 540, values[2].toString());
-        this.add.text(765, 427, values[3].toString());
-        this.add.text(595, 450, values[4].toString());
-        this.add.text(450, 462, values[5].toString());
-        this.add.text(575, 500, values[6].toString());
-        this.add.text(695, 540, values[7].toString());
-        this.add.text(635, 385, values[8].toString());
+        this.add.text(387, 417, values[0].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(350, 470, values[1].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(529, 540, values[2].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(765, 427, values[3].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(595, 450, values[4].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(450, 462, values[5].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(575, 500, values[6].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(695, 540, values[7].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
+        this.add.text(635, 385, values[8].toString(), {
+            fontSize: "30px",
+            color: "000000",
+        });
     }
 
     toggleMute() {
