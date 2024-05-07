@@ -1,21 +1,21 @@
 import Phaser from "phaser";
 
 export default class levelThree extends Phaser.Scene {
-    private stone?: Phaser.Physics.Arcade.StaticGroup;
+    //private stone?: Phaser.Physics.Arcade.StaticGroup;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
-    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    target: Phaser.Math.Vector2;
+    //source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
+    //target: Phaser.Math.Vector2;
+    private isMuted: boolean = false;
+    private muteButton!: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: "levelThree" });
     }
 
     preload() {
-        this.load.spritesheet("duck", "assets/img/duck.png", {
-            frameWidth: 32,
-            frameHeight: 48,
-        });
+        this.load.image("mute", "assets/img/mutebutton.png");
+        this.load.image("unmute", "assets/img/unmutebutton.png");
     }
 
     create() {
@@ -38,6 +38,12 @@ export default class levelThree extends Phaser.Scene {
             color: "#ffffe0",
         });
         levelName.setStroke("#ffd700", 16);
+
+        this.muteButton = this.add
+            .image(1220, 50, "unmute")
+            .setScale(0.15)
+            .setInteractive();
+        this.muteButton.on("pointerdown", this.toggleMute, this);
 
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(100, 400, "duck").setScale(0.4);
@@ -382,6 +388,18 @@ export default class levelThree extends Phaser.Scene {
             color: "#ffffe0",
         });
         this.scoreText.setStroke("#ffd700", 16);
+    }
+
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+
+        if (this.isMuted) {
+            this.sound.mute = true;
+            this.muteButton.setTexture("mute");
+        } else {
+            this.sound.mute = false;
+            this.muteButton.setTexture("unmute");
+        }
     }
 
     update() {}

@@ -6,10 +6,18 @@ export default class levelFive extends Phaser.Scene {
     //target: Phaser.Math.Vector2;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
+    private isMuted: boolean = false;
+    private muteButton!: Phaser.GameObjects.Image;
 
     constructor() {
         super({ key: "levelFive" });
     }
+
+    preload() {
+        this.load.image("mute", "assets/img/mutebutton.png");
+        this.load.image("unmute", "assets/img/unmutebutton.png");
+    }
+
     create() {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
@@ -38,6 +46,12 @@ export default class levelFive extends Phaser.Scene {
             color: "#ffffe0",
         });
         this.scoreText.setStroke("#ffd700", 16);
+
+        this.muteButton = this.add
+            .image(1220, 50, "unmute")
+            .setScale(0.15)
+            .setInteractive();
+        this.muteButton.on("pointerdown", this.toggleMute, this);
 
         this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
@@ -334,6 +348,18 @@ export default class levelFive extends Phaser.Scene {
                 this.scoreText?.setText("Path Length: " + this.score);
             });
         });
+    }
+
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+
+        if (this.isMuted) {
+            this.sound.mute = true;
+            this.muteButton.setTexture("mute");
+        } else {
+            this.sound.mute = false;
+            this.muteButton.setTexture("unmute");
+        }
     }
 
     update() {}
