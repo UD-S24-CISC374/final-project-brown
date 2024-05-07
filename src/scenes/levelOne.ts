@@ -225,9 +225,10 @@ export default class levelOne extends Phaser.Scene {
                 if (duck1.x == 700) {
                     this.score += values[2];
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                    if (this.score === correct.value) {
-                        this.scene.start("levelOnePass");
-                    } /*else if (tries < 3) {
+                }
+                if (this.score === correct.value) {
+                    this.scene.start("levelOnePass");
+                } /*else if (tries < 3) {
                             this.score = 0;
                             this.add.text(225, 350, "Not Quite, Try Again", {
                                 fontFamily: "Arial Black",
@@ -237,10 +238,9 @@ export default class levelOne extends Phaser.Scene {
                             tries++;
                         } 
                         */ else {
-                        this.add.text(200, 200, "try another problem");
-                        this.scene.start("levelOne");
-                        this.score = 0;
-                    }
+                    this.add.text(200, 200, "try another problem");
+                    this.scene.start("levelOne");
+                    this.score = 0;
                 }
             })
             .on("pointerover", () => stone4.setScale(0.5))

@@ -328,8 +328,8 @@ export default class levelThree extends Phaser.Scene {
                     duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
                 }
             })
-            .on("pointerover", () => stone6.setScale(0.5))
-            .on("pointerout", () => stone6.setScale(0.4));
+            .on("pointerover", () => stone7.setScale(0.5))
+            .on("pointerout", () => stone7.setScale(0.4));
         this.add.text(900, 450, "stone7");
 
         let stone8 = this.add

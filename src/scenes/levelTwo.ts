@@ -61,32 +61,86 @@ export default class levelTwo extends Phaser.Scene {
 
         graphics.strokePath();
 
+        function generateValues(): number[] {
+            const randomList: number[] = [];
+            for (let i = 0; i < 20; i++) {
+                const randomNumber =
+                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
+                randomList.push(randomNumber);
+            }
+            return randomList;
+        }
+        const values = generateValues();
+
+        let paths: number[][] = [
+            [values[0] + values[8]],
+            [values[0] + values[5] + values[4]],
+            [values[0] + values[5] + values[2] + values[7] + values[3]],
+            [values[0] + values[6] + values[7] + values[3]],
+            [values[0] + values[5] + values[4]],
+            [values[1] + values[5] + values[8]],
+            [values[1] + values[5] + values[6] + values[7] + values[3]],
+            [values[1] + values[4]],
+            [values[1] + values[2] + values[7] + values[3]],
+            [values[1] + values[2] + values[6] + values[8]],
+        ];
+
+        function getPathValue(path: number[]): number {
+            let value: number = 0;
+            for (let v of path) {
+                value += v;
+            }
+            return value;
+        }
+
+        function shortestPath(paths: number[][]): {
+            path: number[];
+            value: number;
+        } {
+            let shortestPath: number[] = paths[0]; // Assume the first path is the shortest initially
+            let shortestLength: number = getPathValue(paths[0]); // Get the value of the first path
+
+            for (let path of paths) {
+                let value: number = getPathValue(path);
+                if (value < shortestLength) {
+                    shortestPath = path;
+                    shortestLength = value;
+                }
+            }
+
+            return { path: shortestPath, value: shortestLength };
+        }
+
+        // Helper function to calculate the value of a path
+
+        let correct = shortestPath(paths);
+
         // add stones
         //this.stone = this.physics.add.staticGroup();
+        this.add.text(220, 450, "Start");
+        this.add.text(780, 490, "End");
         let duck1 = this.add.image(150, 500, "duck");
         let duck2 = this.add.image(950, 250, "duck");
+
         duck2
             .setScale(0.4)
             .setInteractive()
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
-                    this.score += 1;
+                    this.score += 0;
                     duck1
                         .setX(duck2.x + 10)
                         .setY(duck2.y + 10)
                         .setDepth(1);
                 }
                 if (duck1.x == 750) {
-                    this.score += 2;
+                    this.score += 0;
                     duck1
                         .setX(duck2.x + 10)
                         .setY(duck2.y + 10)
                         .setDepth(1);
                 }
                 this.scoreText?.setText("Path Length" + this.score);
-                //if (this.score > 3) {
-
-                //}
             });
         duck1.setScale(0.4);
 
@@ -97,11 +151,15 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .on("pointerdown", () => {
                 if (duck1.x == 700) {
-                    this.score = +2;
+                    this.score += values[4];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 if (duck1.x == 750) {
-                    this.score += 3;
+                    this.score += values[3];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (duck1.x == 275) {
+                    this.score += values[0];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
@@ -116,12 +174,12 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 700) {
+                if (duck1.x == 500) {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[0];
                 }
-                if (duck1.x == 750) {
-                    this.score += 3;
+                if (duck1.x == 700) {
+                    this.score += values[1];
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
                 }
             })
@@ -137,10 +195,14 @@ export default class levelTwo extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[1];
                 }
                 if (duck1.x == 750) {
-                    this.score += 3;
+                    this.score += values[2];
+                    duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
+                }
+                if (duck1.x == 500) {
+                    this.score += values[4];
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
                 }
             })
@@ -154,12 +216,12 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 275) {
+                if (duck1.x == 500) {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[3];
                 }
                 if (duck1.x == 700) {
-                    this.score += 3;
+                    this.score += values[2];
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
                 }
             })
@@ -173,13 +235,33 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
-                if (duck1.x == 275) {
+                if (duck1.x == 500) {
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[3];
                 }
-                if (duck1.x == 700) {
-                    this.score += 3;
+                if (duck1.x == 400) {
+                    this.score += values[4];
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
+                }
+                if (duck1.x == 740) {
+                    this.score += values[9];
+                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                }
+                if (this.score === correct.value) {
+                    this.scene.start("levelTwoPass");
+                } /*else if (tries < 3) {
+                            this.score = 0;
+                            this.add.text(225, 350, "Not Quite, Try Again", {
+                                fontFamily: "Arial Black",
+                                fontSize: "70px",
+                                color: "#ffffe0",
+                            });
+                            tries++;
+                        } 
+                        */ else {
+                    this.add.text(200, 200, "try another problem");
+                    this.scene.start("levelTwo");
+                    this.score = 0;
                 }
             })
             .on("pointerover", () => stone5.setScale(0.5))
@@ -209,26 +291,15 @@ export default class levelTwo extends Phaser.Scene {
             stone.setInteractive().on("pointerdown", () => {
                 duck1.setPosition(stone.x, stone.y).setDepth(1);
                 if (duck1.x == 275 || duck1.x == 750) {
-                    this.score += 3;
+                    this.score += 0;
                 } else if (duck1.x == 700) {
-                    this.score += 2;
+                    this.score += 0;
                 } else {
-                    this.score += 1;
+                    this.score += 0;
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
             });
         });
-
-        function generateValues(): number[] {
-            const randomList: number[] = [];
-            for (let i = 0; i < 20; i++) {
-                const randomNumber =
-                    Math.floor(Math.random() * (10 - 1 + 1)) + 1;
-                randomList.push(randomNumber);
-            }
-            return randomList;
-        }
-        const values = generateValues();
 
         console.log(values);
         this.add.text(387, 417, values[0].toString());
