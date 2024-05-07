@@ -74,6 +74,7 @@ export default class levelTwo extends Phaser.Scene {
 
         let paths: number[][] = [
             [values[0] + values[8]],
+            [values[1] + values[4]],
             [values[0] + values[5] + values[4]],
             [values[0] + values[5] + values[2] + values[7] + values[3]],
             [values[0] + values[6] + values[7] + values[3]],
@@ -245,7 +246,7 @@ export default class levelTwo extends Phaser.Scene {
                 }
                 if (duck1.x == 740) {
                     this.score += values[9];
-                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                    duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
                 }
                 if (this.score === correct.value) {
                     this.scene.start("levelTwoPass");
