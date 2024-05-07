@@ -13,8 +13,16 @@ export default class levelOne extends Phaser.Scene {
     //private duck1!: Phaser.GameObjects.Container;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
+    private isMuted: boolean = false;
+    private muteButton!: Phaser.GameObjects.Image;
+
     constructor() {
         super({ key: "levelOne" });
+    }
+
+    preload() {
+        this.load.image("mute", "assets/img/mutebutton.png");
+        this.load.image("unmute", "assets/img/unmutebutton.png");
     }
 
     create() {
@@ -44,6 +52,12 @@ export default class levelOne extends Phaser.Scene {
             color: "#ffffe0",
         });
         this.scoreText.setStroke("#ffd700", 16);
+
+        this.muteButton = this.add
+            .image(1220, 50, "unmute")
+            .setScale(0.15)
+            .setInteractive();
+        this.muteButton.on("pointerdown", this.toggleMute, this);
 
         //this.add.image(150, 500, "duck").setScale(0.4);
         //this.add.image(950, 250, "duck").setScale(0.4);
@@ -363,6 +377,18 @@ export default class levelOne extends Phaser.Scene {
             startVertex + ":",
             shortestDistances
         );*/
+    }
+
+    toggleMute() {
+        this.isMuted = !this.isMuted;
+
+        if (this.isMuted) {
+            this.sound.mute = true;
+            this.muteButton.setTexture("mute");
+        } else {
+            this.sound.mute = false;
+            this.muteButton.setTexture("unmute");
+        }
     }
 
     update() {}

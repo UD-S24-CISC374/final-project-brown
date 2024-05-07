@@ -12,6 +12,8 @@ export default class mainMenu extends Phaser.Scene {
             frameWidth: 37,
             frameHeight: 45,
         });
+
+        this.load.audio("theme", ["assets/audio/theme.mp3"]);
     }
 
     create() {
@@ -19,7 +21,8 @@ export default class mainMenu extends Phaser.Scene {
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
 
-        this.add;
+        const music = this.sound.add("theme");
+        music.play();
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
