@@ -1,7 +1,7 @@
 import Phaser from "phaser";
 
 export default class mainMenu extends Phaser.Scene {
-    private button?: Phaser.GameObjects.Text;
+    //private button?: Phaser.GameObjects.Text;
 
     constructor() {
         super({ key: "mainMenu" });
@@ -77,6 +77,30 @@ export default class mainMenu extends Phaser.Scene {
         button.on("pointerdown", () => {
             console.log("Button clicked!");
             this.scene.start("levelOne");
+        });
+
+        const tutorialButton = this.add
+            .text(screenWidth / 2, screenHeight / 2 + 270, "Tutorial", {
+                color: "#ffffff",
+                fontSize: "32px",
+                fixedWidth: 175,
+                backgroundColor: "#87ceeb",
+            })
+            .setPadding(16)
+            .setOrigin(0.5);
+
+        tutorialButton.setInteractive({ useHandCursor: true });
+
+        tutorialButton.on("pointerover", () => {
+            tutorialButton.setBackgroundColor("#1e90ff");
+        });
+
+        tutorialButton.on("pointerout", () => {
+            tutorialButton.setBackgroundColor("#87ceeb");
+        });
+
+        tutorialButton.on("pointerdown", () => {
+            this.scene.start("tutorial");
         });
     }
 

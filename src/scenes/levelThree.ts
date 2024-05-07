@@ -39,8 +39,20 @@ export default class levelThree extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
+        const restart = this.add.text(1240, 25, "Restart", {
+            fontFamily: "Arial Black",
+            fontSize: "40px",
+            color: "#ffffe0",
+        });
+        restart.setStroke("#ffd700", 16);
+        restart.setOrigin(1, 0).setInteractive();
+        restart.on("pointerdown", () => {
+            this.score = 0;
+            this.scene.start("levelOne");
+        });
+
         this.muteButton = this.add
-            .image(1220, 50, "unmute")
+            .image(1150, 120, "unmute")
             .setScale(0.15)
             .setInteractive();
         this.muteButton.on("pointerdown", this.toggleMute, this);

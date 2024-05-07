@@ -1,28 +1,15 @@
 import Phaser from "phaser";
 
-/*interface Edge {
-    start: string;
-    end: string;
-    weight: number;
-}
-*/
-export default class levelOne extends Phaser.Scene {
-    //private stone?: Phaser.Physics.Arcade.StaticGroup;
-    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    target: Phaser.Math.Vector2;
-    //private duck1!: Phaser.GameObjects.Container;
+export default class TutorialScene extends Phaser.Scene {
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
-    private isMuted: boolean = false;
-    private muteButton!: Phaser.GameObjects.Image;
 
     constructor() {
-        super({ key: "levelOne" });
+        super({ key: "tutorial" });
     }
 
     preload() {
-        this.load.image("mute", "assets/img/mutebutton.png");
-        this.load.image("unmute", "assets/img/unmutebutton.png");
+        this.load.image("pond", "assets/pond.png");
     }
 
     create() {
@@ -33,18 +20,37 @@ export default class levelOne extends Phaser.Scene {
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
-        // change when levels work
-        // .setInteractive()
-        //.on("pointerdown", () => {
-        //this.scene.start("levelOnePass");
-        //});
 
-        const levelName = this.add.text(25, 25, "Level 1", {
-            fontFamily: "Arial Black",
-            fontSize: "40px",
-            color: "#ffffe0",
+        const tutorialText = this.add.text(
+            screenWidth / 2,
+            screenHeight / 2,
+            "Tutorial",
+            { fontSize: "32px", color: "#fff" }
+        );
+        tutorialText.setOrigin(0.5);
+
+        const closeButton = this.add
+            .text(screenWidth / 2, screenHeight - 100, "Close", {
+                color: "#ffffff",
+                fontSize: "32px",
+                fixedWidth: 100,
+                backgroundColor: "#87ceeb",
+            })
+            .setPadding(16)
+            .setOrigin(0.5)
+            .setInteractive({ useHandCursor: true });
+
+        closeButton.on("pointerover", () => {
+            closeButton.setBackgroundColor("#1e90ff");
         });
-        levelName.setStroke("#ffd700", 16);
+
+        closeButton.on("pointerout", () => {
+            closeButton.setBackgroundColor("#87ceeb");
+        });
+
+        closeButton.on("pointerdown", () => {
+            this.scene.start("mainMenu");
+        });
 
         this.scoreText = this.add.text(25, 75, "Path Length: 0", {
             fontFamily: "Arial Black",
@@ -52,27 +58,6 @@ export default class levelOne extends Phaser.Scene {
             color: "#ffffe0",
         });
         this.scoreText.setStroke("#ffd700", 16);
-
-        const restart = this.add.text(1240, 25, "Restart", {
-            fontFamily: "Arial Black",
-            fontSize: "40px",
-            color: "#ffffe0",
-        });
-        restart.setStroke("#ffd700", 16);
-        restart.setOrigin(1, 0).setInteractive();
-        restart.on("pointerdown", () => {
-            this.score = 0;
-            this.scene.start("levelOne");
-        });
-
-        this.muteButton = this.add
-            .image(1150, 120, "unmute")
-            .setScale(0.15)
-            .setInteractive();
-        this.muteButton.on("pointerdown", this.toggleMute, this);
-
-        //this.add.image(150, 500, "duck").setScale(0.4);
-        //this.add.image(950, 250, "duck").setScale(0.4);
 
         // connection lines
         const graphics = this.add.graphics();
@@ -87,14 +72,6 @@ export default class levelOne extends Phaser.Scene {
         graphics.lineTo(700, 600);
         graphics.strokePath();
 
-        // add stones
-        /*this.stone = this.physics.add.staticGroup();
-        this.add.text(275, 500, "Start");
-        const stone1 = this.stone.create(500, 400, "stone");
-        const stone2 = this.stone.create(275, 500, "stone");
-        const stone3 = this.stone.create(700, 600, "stone");
-        const stone4 = this.stone.create(750, 450, "stone");
-        */
         this.add.text(220, 450, "Start");
         this.add.text(760, 490, "End");
         let duck1 = this.add.image(150, 500, "duck");
@@ -119,9 +96,6 @@ export default class levelOne extends Phaser.Scene {
                         .setDepth(1);
                 }
                 this.scoreText?.setText("Path Length" + this.score);
-                //if (this.score > 3) {
-
-                //}
             });
         duck1.setScale(0.4);
         function generateValues(): number[] {
@@ -264,8 +238,6 @@ export default class levelOne extends Phaser.Scene {
                             tries++;
                         } 
                         */ else {
-                    this.add.text(200, 200, "try another problem");
-                    this.scene.start("levelOne");
                     this.score = 0;
                 }
             })
@@ -311,97 +283,43 @@ export default class levelOne extends Phaser.Scene {
             color: "000000",
         });
 
-        /* dijkstras
-
-        const vertices: string[] = ["stone1", "stone2", "stone3", "stone4"];
-        const edges: Edge[] = [
-            { start: "stone2", end: "stone4", weight: values[0] + values[4] },
-            { start: "stone2", end: "stone4", weight: values[1] + values[2] },
+        const startPopup = this.add.text(
+            150,
+            500,
+            "Click on the start stone to begin",
             {
-                start: "stone2",
-                end: "stone4",
-                weight: values[2] + values[4] + values[3],
-            },
+                fontSize: "20px",
+                color: "#ffffff",
+                backgroundColor: "#000000",
+                padding: {
+                    x: 10,
+                    y: 5,
+                },
+            }
+        );
+        startPopup.setOrigin(0.5);
+        startPopup.setDepth(1);
+
+        const endPopup = this.add.text(
+            950,
+            250,
+            "Click on the stone with the smallest number to reach the end stone",
             {
-                start: "stone2",
-                end: "stone4",
-                weight: values[0] + values[4] + values[2],
-            },
-            // Add more edges as needed
-        ];
-
-        // Dijkstra's algorithm function
-        function dijkstra(
-            graph: Record<string, Edge[]>,
-            start: string
-        ): Record<string, number> {
-            const distances: Record<string, number> = {};
-            const previous: Record<string, string | null> = {};
-            const queue: string[] = [];
-            for (let vertex of vertices) {
-                distances[vertex] = Infinity;
-                previous[vertex] = null;
-                queue.push(vertex);
+                fontSize: "20px",
+                color: "#ffffff",
+                backgroundColor: "#000000",
+                padding: {
+                    x: 10,
+                    y: 5,
+                },
             }
-            distances[start] = 0;
+        );
+        endPopup.setOrigin(0.5);
+        endPopup.setDepth(1);
 
-            while (queue.length) {
-                queue.sort((a, b) => distances[a] - distances[b]);
-                const smallest = queue.shift();
-
-                if (!smallest) break;
-
-                for (let neighbor of graph[smallest]) {
-                    const alt = distances[smallest] + neighbor.weight;
-                    if (alt < distances[neighbor.end]) {
-                        distances[neighbor.end] = alt;
-                        previous[neighbor.end] = smallest;
-                    }
-                }
-            }
-            return distances;
-        }
-        console.log(dijkstra);
-
-        // Build adjacency list representation of the graph
-        const adjacencyList: Record<string, Edge[]> = {};
-        vertices.forEach((vertex) => {
-            adjacencyList[vertex] = [];
+        this.input.on("pointerdown", () => {
+            startPopup.destroy();
+            endPopup.destroy();
         });
-        edges.forEach((edge) => {
-            adjacencyList[edge.start].push({
-                start: edge.start,
-                end: edge.end,
-                weight: edge.weight,
-            });
-            adjacencyList[edge.end].push({
-                start: edge.end,
-                end: edge.start,
-                weight: edge.weight,
-            }); // For undirected graph
-        });
-
-        // Run Dijkstra's algorithm from a starting vertex
-        const startVertex = "stone1"; // Choose your starting vertex
-        const shortestDistances = dijkstra(adjacencyList, startVertex);
-        console.log(
-            "Shortest distances from vertex",
-            startVertex + ":",
-            shortestDistances
-        );*/
     }
-
-    toggleMute() {
-        this.isMuted = !this.isMuted;
-
-        if (this.isMuted) {
-            this.sound.mute = true;
-            this.muteButton.setTexture("mute");
-        } else {
-            this.sound.mute = false;
-            this.muteButton.setTexture("unmute");
-        }
-    }
-
-    update() {}
 }
