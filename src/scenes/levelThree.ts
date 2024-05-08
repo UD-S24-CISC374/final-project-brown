@@ -75,10 +75,9 @@ export default class levelThree extends Phaser.Scene {
             { x: 650, y: 600 },
             { x: 500, y: 400 },
             { x: 790, y: 375 },
-            { x: 900, y: 450 },
             { x: 400, y: 525 },
-            { x: 900, y: 450 },
-            { x: 850, y: 575 },
+            { x: 740, y: 480 },
+            { x: 500, y: 400 },
         ];
 
         graphics.beginPath();
@@ -99,6 +98,70 @@ export default class levelThree extends Phaser.Scene {
         }
 
         const values = generateValues();
+
+        let paths: number[][] = [
+            [values[0] + values[8]],
+            [values[0] + values[10] + values[3]],
+            [values[0] + values[10] + values[2] + values[7] + values[8]],
+            [
+                values[0] +
+                    values[10] +
+                    values[2] +
+                    values[1] +
+                    values[6] +
+                    values[8],
+            ],
+            [values[0] + values[7] + values[2] + values[3]],
+            [values[0] + values[7] + values[1] + values[6] + values[8]],
+            [values[0] + values[6] + values[5]],
+            [values[0] + values[6] + values[9] + values[3]],
+            [values[0] + values[6] + values[1] + values[2] + values[3]],
+            [values[0] + values[6] + values[1] + values[7] + values[8]],
+            [
+                values[0] +
+                    values[6] +
+                    values[1] +
+                    values[7] +
+                    values[10] +
+                    values[3],
+            ],
+            [values[4] + values[5]],
+            [values[4] + values[1] + values[2] + values[3]],
+            [values[4] + values[6] + values[8]],
+            [values[4] + values[6] + values[10] + values[3]],
+            [values[4] + values[6] + values[7] + values[2] + values[3]],
+            [values[4] + values[1] + values[7] + values[8]],
+        ];
+
+        function getPathValue(path: number[]): number {
+            let value: number = 0;
+            for (let v of path) {
+                value += v;
+            }
+            return value;
+        }
+
+        function shortestPath(paths: number[][]): {
+            path: number[];
+            value: number;
+        } {
+            let shortestPath: number[] = paths[0]; // Assume the first path is the shortest initially
+            let shortestLength: number = getPathValue(paths[0]); // Get the value of the first path
+
+            for (let path of paths) {
+                let value: number = getPathValue(path);
+                if (value < shortestLength) {
+                    shortestPath = path;
+                    shortestLength = value;
+                }
+            }
+
+            return { path: shortestPath, value: shortestLength };
+        }
+
+        // Helper function to calculate the value of a path
+
+        let correct = shortestPath(paths);
         console.log(values);
         this.add.text(387, 420, values[0].toString(), {
             fontSize: "20px",
@@ -124,31 +187,23 @@ export default class levelThree extends Phaser.Scene {
             fontSize: "20px",
             color: "000000",
         });
-        this.add.text(450, 462, values[4].toString(), {
+        this.add.text(450, 462, values[6].toString(), {
             fontSize: "20px",
             color: "000000",
         });
-        this.add.text(575, 500, values[6].toString(), {
+        this.add.text(575, 475, values[7].toString(), {
             fontSize: "20px",
             color: "000000",
         });
-        this.add.text(645, 387, values[7].toString(), {
+        this.add.text(645, 387, values[8].toString(), {
             fontSize: "20px",
             color: "000000",
         });
-        this.add.text(845, 412, values[8].toString(), {
+        this.add.text(570, 505, values[9].toString(), {
             fontSize: "20px",
             color: "000000",
         });
-        this.add.text(650, 487, values[9].toString(), {
-            fontSize: "20px",
-            color: "000000",
-        });
-        this.add.text(875, 512, values[10].toString(), {
-            fontSize: "20px",
-            color: "000000",
-        });
-        this.add.text(820, 475, values[11].toString(), {
+        this.add.text(600, 415, values[10].toString(), {
             fontSize: "20px",
             color: "000000",
         });
@@ -188,15 +243,15 @@ export default class levelThree extends Phaser.Scene {
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 if (duck1.x == 400) {
-                    this.score += values[2];
+                    this.score += values[4];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 if (duck1.x == 650) {
-                    this.score += values[5];
+                    this.score += values[7];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 if (duck1.x == 790) {
-                    this.score += values[3];
+                    this.score += values[8];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
@@ -216,7 +271,7 @@ export default class levelThree extends Phaser.Scene {
                     this.score += values[0];
                 }
                 if (duck1.x == 400) {
-                    this.score += values[1];
+                    this.score += values[6];
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
                 }
             })
@@ -233,14 +288,14 @@ export default class levelThree extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 740) {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
-                    this.score += values[8];
+                    this.score += values[2];
                 }
                 if (duck1.x == 400) {
-                    this.score += values[7];
+                    this.score += values[1];
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
                 }
                 if (duck1.x == 500) {
-                    this.score += values[5];
+                    this.score += values[7];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
             })
@@ -258,18 +313,10 @@ export default class levelThree extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 790) {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                    this.score += values[9];
-                }
-                if (duck1.x == 900) {
-                    this.score += values[10];
-                    duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
-                }
-                if (duck1.x == 400) {
-                    this.score += values[6];
-                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                    this.score += values[3];
                 }
                 if (duck1.x == 650) {
-                    this.score += values[8];
+                    this.score += values[2];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
             })
@@ -286,23 +333,31 @@ export default class levelThree extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 500) {
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
-                    this.score += values[3];
+                    this.score += values[8];
                 }
                 if (duck1.x == 400) {
-                    this.score += values[4];
+                    this.score += values[5];
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
                 }
                 if (duck1.x == 740) {
-                    this.score += values[9];
+                    this.score += values[3];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
                 }
-                if (duck1.x == 900) {
-                    this.score += values[12];
-                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
-                }
-                if (duck1.x == 850) {
-                    this.score += values[11];
-                    duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
+                if (this.score === correct.value) {
+                    this.scene.start("levelThreePass");
+                } /*else if (tries < 3) {
+                            this.score = 0;
+                            this.add.text(225, 350, "Not Quite, Try Again", {
+                                fontFamily: "Arial Black",
+                                fontSize: "70px",
+                                color: "#ffffe0",
+                            });
+                            tries++;
+                        } 
+                        */ else {
+                    this.add.text(200, 200, "try another problem");
+                    this.scene.start("levelThree");
+                    this.score = 0;
                 }
             })
             .on("pointerover", () => stone5.setScale(0.5))
@@ -329,65 +384,16 @@ export default class levelThree extends Phaser.Scene {
             .on("pointerout", () => stone6.setScale(0.4));
         this.add.text(400, 535, "stone6");
 
-        let stone7 = this.add
-            .image(900, 450, "stone")
-            .setScale(0.5, 0.4)
-            .setAngle(0)
-            .setInteractive()
-            .setDepth(0)
-            .on("pointerdown", () => {
-                if (duck1.x == 275) {
-                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
-                    this.score += 3;
-                }
-                if (duck1.x == 700) {
-                    this.score += 3;
-                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
-                }
-            })
-            .on("pointerover", () => stone7.setScale(0.5))
-            .on("pointerout", () => stone7.setScale(0.4));
-        this.add.text(900, 450, "stone7");
-
-        let stone8 = this.add
-            .image(850, 575, "stone")
-            .setScale(0.5, 0.4)
-            .setAngle(0)
-            .setInteractive()
-            .setDepth(0)
-            .on("pointerdown", () => {
-                if (duck1.x == 275) {
-                    duck1.setX(stone8.x).setY(stone8.y).setDepth(1);
-                    this.score += 3;
-                }
-                if (duck1.x == 700) {
-                    this.score += 3;
-                    duck1.setX(stone8.x).setY(stone8.y).setDepth(1);
-                }
-            })
-            .on("pointerover", () => stone8.setScale(0.5))
-            .on("pointerout", () => stone8.setScale(0.4));
-        this.add.text(850, 575, "stone8");
-
-        const stones = [
-            stone1,
-            stone2,
-            stone3,
-            stone4,
-            stone5,
-            stone6,
-            stone7,
-            stone8,
-        ];
+        const stones = [stone1, stone2, stone3, stone4, stone5, stone6];
         stones.forEach((stone) => {
             stone.setInteractive().on("pointerdown", () => {
                 duck1.setPosition(stone.x, stone.y).setDepth(1);
                 if (duck1.x == 275 || duck1.x == 750) {
-                    this.score += 3;
+                    this.score += 0;
                 } else if (duck1.x == 700) {
-                    this.score += 2;
+                    this.score += 0;
                 } else {
-                    this.score += 1;
+                    this.score += 0;
                 }
                 this.scoreText?.setText("Path Length: " + this.score);
             });
