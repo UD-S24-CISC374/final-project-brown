@@ -56,7 +56,7 @@ export default class levelFive extends Phaser.Scene {
         restart.setOrigin(1, 0).setInteractive();
         restart.on("pointerdown", () => {
             this.score = 0;
-            this.scene.start("levelOne");
+            this.scene.start("levelFive");
         });
 
         this.muteButton = this.add
