@@ -407,8 +407,7 @@ export default class levelFour extends Phaser.Scene {
                             tries++;
                         } 
                         */ else {
-                    this.add.text(200, 200, "try another problem");
-                    this.scene.start("levelFour");
+                    this.scene.start("levelFourFail");
                     this.score = 0;
                 }
             })
