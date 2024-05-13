@@ -247,6 +247,9 @@ export default class levelOne extends Phaser.Scene {
                 }
                 if (this.score === correct.value) {
                     this.scene.start("levelOnePass");
+                } else {
+                    this.scene.start("levelOneFail");
+                    this.score = 0;
                 } /*else if (tries < 3) {
                             this.score = 0;
                             this.add.text(225, 350, "Not Quite, Try Again", {
@@ -256,11 +259,7 @@ export default class levelOne extends Phaser.Scene {
                             });
                             tries++;
                         } 
-                        */ else {
-                    this.add.text(200, 200, "try another problem");
-                    this.scene.start("levelOne");
-                    this.score = 0;
-                }
+                        */
             })
             .on("pointerover", () => stone4.setScale(0.5))
             .on("pointerout", () => stone4.setScale(0.4));
