@@ -348,8 +348,7 @@ export default class levelThree extends Phaser.Scene {
                             tries++;
                         } 
                         */ else {
-                    this.add.text(200, 200, "try another problem");
-                    this.scene.start("levelThree");
+                    this.scene.start("levelThreeFail");
                     this.score = 0;
                 }
             })
