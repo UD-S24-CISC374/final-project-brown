@@ -39,9 +39,9 @@ export default class levelTwo extends Phaser.Scene {
         });
         this.scoreText.setStroke("#ffd700", 16);
 
-        const restart = this.add.text(1240, 25, "Restart", {
+        const restart = this.add.text(1240, 25, "Restart Level", {
             fontFamily: "Arial Black",
-            fontSize: "40px",
+            fontSize: "30px",
             color: "#ffffe0",
         });
         restart.setStroke("#ffd700", 16);
