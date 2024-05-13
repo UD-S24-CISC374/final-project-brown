@@ -25,12 +25,8 @@ export default class levelThree extends Phaser.Scene {
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
-            .setDisplaySize(screenWidth, screenHeight)
-            // change when levels work
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.scene.start("levelThreePass");
-            });
+            .setDisplaySize(screenWidth, screenHeight);
+        // change when levels work
 
         const levelName = this.add.text(25, 25, "Level 3", {
             fontFamily: "Arial Black",
@@ -39,16 +35,16 @@ export default class levelThree extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
-        const restart = this.add.text(1240, 25, "Restart", {
+        const restart = this.add.text(1240, 25, "Restart Level", {
             fontFamily: "Arial Black",
-            fontSize: "40px",
+            fontSize: "20px",
             color: "#ffffe0",
         });
         restart.setStroke("#ffd700", 16);
         restart.setOrigin(1, 0).setInteractive();
         restart.on("pointerdown", () => {
             this.score = 0;
-            this.scene.start("levelOne");
+            this.scene.start("levelThree");
         });
 
         this.muteButton = this.add
@@ -277,7 +273,7 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone2.setScale(0.5))
             .on("pointerout", () => stone2.setScale(0.4));
-        this.add.text(275, 435, "stone2");
+        this.add.text(220, 455, "START");
 
         let stone3 = this.add
             .image(650, 600, "stone")
@@ -302,8 +298,6 @@ export default class levelThree extends Phaser.Scene {
             .on("pointerover", () => stone3.setScale(0.5))
             .on("pointerout", () => stone3.setScale(0.4));
 
-        this.add.text(650, 600, "stone3");
-
         let stone4 = this.add
             .image(740, 480, "stone")
             .setScale(0.5, 0.4)
@@ -322,7 +316,6 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone4.setScale(0.5))
             .on("pointerout", () => stone4.setScale(0.4));
-        this.add.text(740, 480, "stone4");
 
         let stone5 = this.add
             .image(790, 375, "stone")
@@ -362,7 +355,7 @@ export default class levelThree extends Phaser.Scene {
             })
             .on("pointerover", () => stone5.setScale(0.5))
             .on("pointerout", () => stone5.setScale(0.4));
-        this.add.text(790, 375, "stone5");
+        this.add.text(815, 390, "END");
 
         let stone6 = this.add
             .image(400, 525, "stone")
@@ -373,16 +366,19 @@ export default class levelThree extends Phaser.Scene {
             .on("pointerdown", () => {
                 if (duck1.x == 275) {
                     duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
-                    this.score += 3;
+                    this.score += values[2];
                 }
-                if (duck1.x == 700) {
-                    this.score += 3;
+                if (duck1.x == 500) {
+                    this.score += values[6];
+                    duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
+                }
+                if (duck1.x == 790) {
+                    this.score += values[5];
                     duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
                 }
             })
             .on("pointerover", () => stone6.setScale(0.5))
             .on("pointerout", () => stone6.setScale(0.4));
-        this.add.text(400, 535, "stone6");
 
         const stones = [stone1, stone2, stone3, stone4, stone5, stone6];
         stones.forEach((stone) => {

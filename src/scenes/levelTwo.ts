@@ -39,16 +39,16 @@ export default class levelTwo extends Phaser.Scene {
         });
         this.scoreText.setStroke("#ffd700", 16);
 
-        const restart = this.add.text(1240, 25, "Restart", {
+        const restart = this.add.text(1240, 25, "Restart Level", {
             fontFamily: "Arial Black",
-            fontSize: "40px",
+            fontSize: "30px",
             color: "#ffffe0",
         });
         restart.setStroke("#ffd700", 16);
         restart.setOrigin(1, 0).setInteractive();
         restart.on("pointerdown", () => {
             this.score = 0;
-            this.scene.start("levelOne");
+            this.scene.start("levelTwo");
         });
 
         this.muteButton = this.add
