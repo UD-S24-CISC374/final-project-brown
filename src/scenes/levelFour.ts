@@ -22,15 +22,11 @@ export default class levelFour extends Phaser.Scene {
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
 
-        this.add;
+        //this.add;
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
-            .setDisplaySize(screenWidth, screenHeight) // change when levels work
-            .setInteractive()
-            .on("pointerdown", () => {
-                this.scene.start("levelFourPass");
-            });
+            .setDisplaySize(screenWidth, screenHeight);
 
         const levelName = this.add.text(25, 25, "Level 4", {
             fontFamily: "Arial Black",
