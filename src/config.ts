@@ -16,6 +16,7 @@ import levelOneFail from "./scenes/levelOneFail";
 import levelThreeFail from "./scenes/levelThreeFail";
 import levelFourFail from "./scenes/levelFourFail";
 import levelFiveFail from "./scenes/levelFiveFail";
+import tutorial from "./scenes/tutorial";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -50,6 +51,7 @@ export const CONFIG = {
         levelThreeFail,
         levelFourFail,
         levelFiveFail,
+        tutorial,
     ],
     physics: {
         default: "arcade",
