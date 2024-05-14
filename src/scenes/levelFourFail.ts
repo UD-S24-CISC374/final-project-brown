@@ -5,6 +5,10 @@ export default class levelOnePass extends Phaser.Scene {
         super({ key: "levelFourFail", active: false });
     }
 
+    preload() {
+        this.load.audio("fail", ["assets/audio/sadTrombone.mp3"]);
+    }
+
     create() {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
@@ -19,6 +23,9 @@ export default class levelOnePass extends Phaser.Scene {
             0.5
         );
         background.setOrigin(0, 0);
+
+        const failSound = this.sound.add("fail");
+        failSound.play();
 
         // Add popup content
         const popupText = this.add.text(
