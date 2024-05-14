@@ -1,8 +1,5 @@
 import Phaser from "phaser";
 export default class levelFive extends Phaser.Scene {
-    //private stone?: Phaser.Physics.Arcade.StaticGroup;
-    //source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    //target: Phaser.Math.Vector2;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
     private isMuted: boolean = false;
@@ -53,7 +50,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive();
         this.muteButton.on("pointerdown", this.toggleMute, this);
 
-        //this.add.image(150, 500, "duck").setScale(0.4);
+        this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(80, 550, "duck").setScale(0.4);
         this.add.image(150, 550, "duck").setScale(0.4);
@@ -393,16 +390,7 @@ export default class levelFive extends Phaser.Scene {
                 }
                 if (this.score === correct.value) {
                     this.scene.start("endScreen");
-                } /*else if (tries < 3) {
-                            this.score = 0;
-                            this.add.text(225, 350, "Not Quite, Try Again", {
-                                fontFamily: "Arial Black",
-                                fontSize: "70px",
-                                color: "#ffffe0",
-                            });
-                            tries++;
-                        } 
-                        */ else {
+                } else {
                     this.scene.start("levelFiveFail");
                     this.score = 0;
                 }

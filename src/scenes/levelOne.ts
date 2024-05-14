@@ -7,10 +7,6 @@ import Phaser from "phaser";
 }
 */
 export default class levelOne extends Phaser.Scene {
-    //private stone?: Phaser.Physics.Arcade.StaticGroup;
-    source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    target: Phaser.Math.Vector2;
-    //private duck1!: Phaser.GameObjects.Container;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
     private isMuted: boolean = false;
@@ -66,9 +62,6 @@ export default class levelOne extends Phaser.Scene {
             .setInteractive();
         this.muteButton.on("pointerdown", this.toggleMute, this);
 
-        //this.add.image(150, 500, "duck").setScale(0.4);
-        //this.add.image(950, 250, "duck").setScale(0.4);
-
         // connection lines
         const graphics = this.add.graphics();
         graphics.lineStyle(2, 0x000000);
@@ -82,14 +75,6 @@ export default class levelOne extends Phaser.Scene {
         graphics.lineTo(700, 600);
         graphics.strokePath();
 
-        // add stones
-        /*this.stone = this.physics.add.staticGroup();
-        this.add.text(275, 500, "Start");
-        const stone1 = this.stone.create(500, 400, "stone");
-        const stone2 = this.stone.create(275, 500, "stone");
-        const stone3 = this.stone.create(700, 600, "stone");
-        const stone4 = this.stone.create(750, 450, "stone");
-        */
         this.add.text(220, 450, "Start");
         this.add.text(760, 490, "End");
         let duck1 = this.add.image(150, 500, "duck");
@@ -114,11 +99,9 @@ export default class levelOne extends Phaser.Scene {
                         .setDepth(1);
                 }
                 this.scoreText?.setText("Path Length" + this.score);
-                //if (this.score > 3) {
-
-                //}
             });
         duck1.setScale(0.4);
+
         function generateValues(): number[] {
             const randomList: number[] = [];
             for (let i = 0; i < 10; i++) {
@@ -163,7 +146,6 @@ export default class levelOne extends Phaser.Scene {
         }
 
         let correct = shortestPath(paths);
-        //let tries = 0;
 
         let stone1 = this.add
             .image(500, 400, "stone")
@@ -250,16 +232,7 @@ export default class levelOne extends Phaser.Scene {
                 } else {
                     this.scene.start("levelOneFail");
                     this.score = 0;
-                } /*else if (tries < 3) {
-                            this.score = 0;
-                            this.add.text(225, 350, "Not Quite, Try Again", {
-                                fontFamily: "Arial Black",
-                                fontSize: "70px",
-                                color: "#ffffe0",
-                            });
-                            tries++;
-                        } 
-                        */
+                }
             })
             .on("pointerover", () => stone4.setScale(0.5))
             .on("pointerout", () => stone4.setScale(0.4));
@@ -278,8 +251,6 @@ export default class levelOne extends Phaser.Scene {
                 this.scoreText?.setText("Path Length: " + this.score);
             });
         });
-
-        //this.stone = this.physics.add.staticGroup();
 
         console.log(values);
         this.add.text(387, 450, values[0].toString(), {

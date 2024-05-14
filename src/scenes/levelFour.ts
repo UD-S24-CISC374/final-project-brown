@@ -1,8 +1,5 @@
 import Phaser from "phaser";
 export default class levelFour extends Phaser.Scene {
-    //private stone?: Phaser.Physics.Arcade.StaticGroup;
-    //source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    //target: Phaser.Math.Vector2;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
     private isMuted: boolean = false;
@@ -21,8 +18,6 @@ export default class levelFour extends Phaser.Scene {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
-
-        //this.add;
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
@@ -53,7 +48,6 @@ export default class levelFour extends Phaser.Scene {
             .setInteractive();
         this.muteButton.on("pointerdown", this.toggleMute, this);
 
-        //this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(80, 550, "duck").setScale(0.4);
         this.add.image(150, 550, "duck").setScale(0.4);
@@ -218,9 +212,6 @@ export default class levelFour extends Phaser.Scene {
                         .setDepth(1);
                 }
                 this.scoreText?.setText("Path Length" + this.score);
-                //if (this.score > 3) {
-
-                //}
             });
         duck1.setScale(0.4);
 
@@ -393,16 +384,7 @@ export default class levelFour extends Phaser.Scene {
                 }
                 if (this.score === correct.value) {
                     this.scene.start("levelFourPass");
-                } /*else if (tries < 3) {
-                            this.score = 0;
-                            this.add.text(225, 350, "Not Quite, Try Again", {
-                                fontFamily: "Arial Black",
-                                fontSize: "70px",
-                                color: "#ffffe0",
-                            });
-                            tries++;
-                        } 
-                        */ else {
+                } else {
                     this.scene.start("levelFourFail");
                     this.score = 0;
                 }

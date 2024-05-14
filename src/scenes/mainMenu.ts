@@ -44,8 +44,6 @@ export default class mainMenu extends Phaser.Scene {
             ease: "Linear",
         });
 
-        //this.add.image(600, 200, "duck");
-
         const title = this.add.text(225, 350, "CROSS THE POND", {
             fontFamily: "Arial Black",
             fontSize: "70px",

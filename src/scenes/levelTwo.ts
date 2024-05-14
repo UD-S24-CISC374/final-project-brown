@@ -1,6 +1,5 @@
 import Phaser from "phaser";
 export default class levelTwo extends Phaser.Scene {
-    private stone?: Phaser.Physics.Arcade.StaticGroup;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
     private isMuted: boolean = false;
@@ -19,12 +18,10 @@ export default class levelTwo extends Phaser.Scene {
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
 
-        this.add;
-
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
-        // change when levels work
+
         const levelName = this.add.text(25, 25, "Level 2", {
             fontFamily: "Arial Black",
             fontSize: "40px",
@@ -57,7 +54,6 @@ export default class levelTwo extends Phaser.Scene {
             .setInteractive();
         this.muteButton.on("pointerdown", this.toggleMute, this);
 
-        //this.add.image(150, 500, "duck").setScale(0.4);
         this.add.image(50, 500, "duck").setScale(0.4);
         this.add.image(950, 250, "duck").setScale(0.4);
 
