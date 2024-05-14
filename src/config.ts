@@ -11,6 +11,11 @@ import levelFive from "./scenes/levelFive";
 import endScreen from "./scenes/endScreen";
 import mainMenu from "./scenes/mainMenu";
 import PreloadScene from "./scenes/preloadScene";
+import levelTwoFail from "./scenes/levelTwoFail";
+import levelOneFail from "./scenes/levelOneFail";
+import levelThreeFail from "./scenes/levelThreeFail";
+import levelFourFail from "./scenes/levelFourFail";
+import levelFiveFail from "./scenes/levelFiveFail";
 
 const DEFAULT_WIDTH = 1280;
 const DEFAULT_HEIGHT = 720;
@@ -40,6 +45,11 @@ export const CONFIG = {
         levelThreePass,
         levelFourPass,
         endScreen,
+        levelOneFail,
+        levelTwoFail,
+        levelThreeFail,
+        levelFourFail,
+        levelFiveFail,
     ],
     physics: {
         default: "arcade",
