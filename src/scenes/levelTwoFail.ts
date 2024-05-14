@@ -24,7 +24,7 @@ export default class levelOnePass extends Phaser.Scene {
         const popupText = this.add.text(
             screenWidth / 2,
             screenHeight / 2,
-            "You Failed. /n Remember use Dijkstra's Algorithm to find the shortest path",
+            "You Failed. \n Remember use Dijkstra's Algorithm to find the shortest path",
             { fontSize: "32px", color: "#fff" }
         );
         popupText.setOrigin(0.5);
