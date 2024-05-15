@@ -31,11 +31,18 @@ export default class levelOnePass extends Phaser.Scene {
         const popupText = this.add.text(
             screenWidth / 2,
             screenHeight / 2,
-            "You Failed. \n Remember use Dijkstra's Algorithm to find the shortest path",
+            "That wasn't the shortest path.",
             { fontSize: "32px", color: "#fff" }
         );
         popupText.setOrigin(0.5);
-
+        this.add
+            .text(
+                screenWidth / 2,
+                screenHeight / 2 + 30,
+                "Remember to use Dijkstra's Algorithm to find the shortest path",
+                { fontSize: "32px", color: "#fff" }
+            )
+            .setOrigin(0.5);
         // make buttons to change to level two
         this.add.image(700, 200, "duck").setScale(0.6);
         this.add.image(550, 200, "duck").setScale(0.6);
