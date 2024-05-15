@@ -1,48 +1,107 @@
 import Phaser from "phaser";
 
-/*interface Edge {
-    start: string;
-    end: string;
-    weight: number;
-}
-*/
-export default class levelOne extends Phaser.Scene {
+export default class Tutorial extends Phaser.Scene {
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
-    private isMuted: boolean = false;
-    private muteButton!: Phaser.GameObjects.Image;
-
+    private showSuccessPopup!: Phaser.GameObjects.Container;
+    private showTryAgainPopup!: Phaser.GameObjects.Container;
     constructor() {
-        super({ key: "levelOne" });
-    }
-
-    preload() {
-        this.load.image("mute", "assets/img/mutebutton.png");
-        this.load.image("unmute", "assets/img/unmutebutton.png");
+        super({ key: "tutorial" });
     }
 
     create() {
         const { width, height } = this.sys.game.config;
-        const screenWidth: number = Number(width);
-        const screenHeight: number = Number(height);
+        const screenWidth = Number(width);
+        const screenHeight = Number(height);
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
 
-        const levelName = this.add.text(25, 25, "Level 1", {
+        const tutorialText = this.add.text(screenWidth / 2, 50, "Tutorial", {
             fontFamily: "Arial Black",
             fontSize: "40px",
             color: "#ffffe0",
         });
-        levelName.setStroke("#ffd700", 16);
+        tutorialText.setStroke("#ffd700", 16).setOrigin(0.5, 0);
 
-        this.scoreText = this.add.text(25, 75, "Path Length: 0", {
-            fontFamily: "Arial Black",
-            fontSize: "40px",
-            color: "#ffffe0",
-        });
-        this.scoreText.setStroke("#ffd700", 16);
+        const stepOne = this.add.text(
+            200,
+            100,
+            "Step 1: Click on the START stone",
+            {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                color: "#ffffe0",
+                align: "left",
+            }
+        );
+        stepOne.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+
+        const stepTwo = this.add.text(
+            515,
+            140,
+            "Step 2: Look at the END stone and determine which stones would make up the smallest path",
+            {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                color: "#ffffe0",
+                align: "left",
+            }
+        );
+        stepTwo.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+
+        const stepThree = this.add.text(
+            360,
+            180,
+            "Step 3: Then, click the stones you think create the smallest path",
+            {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                color: "#ffffe0",
+                align: "left",
+            }
+        );
+        stepThree.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+
+        const stepFour = this.add.text(
+            540,
+            220,
+            "Step 4: If you notice you mess up before the end, click the RESTART button in the top right corner",
+            {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                color: "#ffffe0",
+                align: "left",
+            }
+        );
+        stepFour.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+
+        const stepFive = this.add.text(
+            280,
+            260,
+            "Step 5: If you get the path wrong, the level resets",
+            {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                color: "#ffffe0",
+                align: "left",
+            }
+        );
+        stepFive.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+
+        const stepSix = this.add.text(
+            370,
+            300,
+            "Step 6: If you get the path correct, you'll move on to the next level",
+            {
+                fontFamily: "Arial",
+                fontSize: "24px",
+                color: "#ffffe0",
+                align: "left",
+            }
+        );
+        stepSix.setStroke("#ffd700", 16).setOrigin(0.5, 0);
 
         const restart = this.add.text(1240, 25, "Restart", {
             fontFamily: "Arial Black",
@@ -53,16 +112,24 @@ export default class levelOne extends Phaser.Scene {
         restart.setOrigin(1, 0).setInteractive();
         restart.on("pointerdown", () => {
             this.score = 0;
-            this.scene.start("levelOne");
+            this.scene.start("tutorial");
         });
 
-        this.muteButton = this.add
-            .image(1150, 120, "unmute")
-            .setScale(0.15)
-            .setInteractive();
-        this.muteButton.on("pointerdown", this.toggleMute, this);
+        const backButton = this.add.text(
+            screenWidth - 50,
+            screenHeight - 50,
+            "Back",
+            {
+                fontFamily: "Arial Black",
+                fontSize: "30px",
+                color: "#ffffe0",
+            }
+        );
+        backButton.setStroke("#ffd700", 20).setOrigin(1).setInteractive();
+        backButton.on("pointerdown", () => {
+            this.scene.start("mainMenu");
+        });
 
-        // connection lines
         const graphics = this.add.graphics();
         graphics.lineStyle(2, 0x000000);
 
@@ -78,7 +145,7 @@ export default class levelOne extends Phaser.Scene {
         this.add.text(220, 450, "Start");
         this.add.text(760, 490, "End");
         let duck1 = this.add.image(150, 500, "duck");
-        let duck2 = this.add.image(950, 250, "duck");
+        let duck2 = this.add.image(1010, 320, "duck");
 
         duck2
             .setScale(0.4)
@@ -99,9 +166,11 @@ export default class levelOne extends Phaser.Scene {
                         .setDepth(1);
                 }
                 this.scoreText?.setText("Path Length" + this.score);
+                //if (this.score > 3) {
+
+                //}
             });
         duck1.setScale(0.4);
-
         function generateValues(): number[] {
             const randomList: number[] = [];
             for (let i = 0; i < 10; i++) {
@@ -146,6 +215,88 @@ export default class levelOne extends Phaser.Scene {
         }
 
         let correct = shortestPath(paths);
+        //let tries = 0;
+
+        const showSuccessPopup = () => {
+            const { width, height } = this.sys.game.config;
+            const screenWidth = Number(width);
+            const screenHeight = Number(height);
+
+            const bgRect = this.add
+                .rectangle(
+                    screenWidth / 2,
+                    screenHeight / 2,
+                    400,
+                    200,
+                    0x000000
+                )
+                .setAlpha(0.8);
+
+            const successText = this.add
+                .text(screenWidth / 2, screenHeight / 2 - 50, "You did it!", {
+                    fontFamily: "Arial Black",
+                    fontSize: "40px",
+                    color: "#00ff00",
+                })
+                .setOrigin(0.5);
+
+            const closeButton = this.add
+                .text(screenWidth / 2, screenHeight / 2 + 50, "Close", {
+                    fontFamily: "Arial",
+                    fontSize: "30px",
+                    color: "#ffffff",
+                    backgroundColor: "#ff0000",
+                    padding: { x: 10, y: 5 },
+                })
+                .setOrigin(0.5)
+                .setInteractive();
+
+            closeButton.on("pointerdown", () => {
+                bgRect.destroy();
+                successText.destroy();
+                closeButton.destroy();
+            });
+        };
+
+        const showTryAgainPopup = () => {
+            const { width, height } = this.sys.game.config;
+            const screenWidth = Number(width);
+            const screenHeight = Number(height);
+
+            const bgRect = this.add
+                .rectangle(
+                    screenWidth / 2,
+                    screenHeight / 2,
+                    400,
+                    200,
+                    0x000000
+                )
+                .setAlpha(0.8);
+            const tryAgainText = this.add
+                .text(screenWidth / 2, screenHeight / 2 - 50, "Try Again!", {
+                    fontFamily: "Arial Black",
+                    fontSize: "40px",
+                    color: "#ff0000",
+                })
+                .setOrigin(0.5);
+
+            const closeButton = this.add
+                .text(screenWidth / 2, screenHeight / 2 + 50, "Close", {
+                    fontFamily: "Arial",
+                    fontSize: "30px",
+                    color: "#ffffff",
+                    backgroundColor: "#ff0000",
+                    padding: { x: 10, y: 5 },
+                })
+                .setOrigin(0.5)
+                .setInteractive();
+
+            closeButton.on("pointerdown", () => {
+                bgRect.destroy();
+                tryAgainText.destroy();
+                closeButton.destroy();
+            });
+        };
 
         let stone1 = this.add
             .image(500, 400, "stone")
@@ -228,11 +379,19 @@ export default class levelOne extends Phaser.Scene {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
                 }
                 if (this.score === correct.value) {
-                    this.scene.start("levelOnePass");
+                    showSuccessPopup();
                 } else {
-                    this.scene.start("levelOneFail");
-                    this.score = 0;
-                }
+                    showTryAgainPopup();
+                } /*else if (tries < 3) {
+                            this.score = 0;
+                            this.add.text(225, 350, "Not Quite, Try Again", {
+                                fontFamily: "Arial Black",
+                                fontSize: "70px",
+                                color: "#ffffe0",
+                            });
+                            tries++;
+                        } 
+                        */
             })
             .on("pointerover", () => stone4.setScale(0.5))
             .on("pointerout", () => stone4.setScale(0.4));
@@ -251,6 +410,8 @@ export default class levelOne extends Phaser.Scene {
                 this.scoreText?.setText("Path Length: " + this.score);
             });
         });
+
+        //this.stone = this.physics.add.staticGroup();
 
         console.log(values);
         this.add.text(387, 450, values[0].toString(), {
@@ -273,98 +434,5 @@ export default class levelOne extends Phaser.Scene {
             fontSize: "30px",
             color: "000000",
         });
-
-        /* dijkstras
-
-        const vertices: string[] = ["stone1", "stone2", "stone3", "stone4"];
-        const edges: Edge[] = [
-            { start: "stone2", end: "stone4", weight: values[0] + values[4] },
-            { start: "stone2", end: "stone4", weight: values[1] + values[2] },
-            {
-                start: "stone2",
-                end: "stone4",
-                weight: values[2] + values[4] + values[3],
-            },
-            {
-                start: "stone2",
-                end: "stone4",
-                weight: values[0] + values[4] + values[2],
-            },
-            // Add more edges as needed
-        ];
-
-        // Dijkstra's algorithm function
-        function dijkstra(
-            graph: Record<string, Edge[]>,
-            start: string
-        ): Record<string, number> {
-            const distances: Record<string, number> = {};
-            const previous: Record<string, string | null> = {};
-            const queue: string[] = [];
-            for (let vertex of vertices) {
-                distances[vertex] = Infinity;
-                previous[vertex] = null;
-                queue.push(vertex);
-            }
-            distances[start] = 0;
-
-            while (queue.length) {
-                queue.sort((a, b) => distances[a] - distances[b]);
-                const smallest = queue.shift();
-
-                if (!smallest) break;
-
-                for (let neighbor of graph[smallest]) {
-                    const alt = distances[smallest] + neighbor.weight;
-                    if (alt < distances[neighbor.end]) {
-                        distances[neighbor.end] = alt;
-                        previous[neighbor.end] = smallest;
-                    }
-                }
-            }
-            return distances;
-        }
-        console.log(dijkstra);
-
-        // Build adjacency list representation of the graph
-        const adjacencyList: Record<string, Edge[]> = {};
-        vertices.forEach((vertex) => {
-            adjacencyList[vertex] = [];
-        });
-        edges.forEach((edge) => {
-            adjacencyList[edge.start].push({
-                start: edge.start,
-                end: edge.end,
-                weight: edge.weight,
-            });
-            adjacencyList[edge.end].push({
-                start: edge.end,
-                end: edge.start,
-                weight: edge.weight,
-            }); // For undirected graph
-        });
-
-        // Run Dijkstra's algorithm from a starting vertex
-        const startVertex = "stone1"; // Choose your starting vertex
-        const shortestDistances = dijkstra(adjacencyList, startVertex);
-        console.log(
-            "Shortest distances from vertex",
-            startVertex + ":",
-            shortestDistances
-        );*/
     }
-
-    toggleMute() {
-        this.isMuted = !this.isMuted;
-
-        if (this.isMuted) {
-            this.sound.mute = true;
-            this.muteButton.setTexture("mute");
-        } else {
-            this.sound.mute = false;
-            this.muteButton.setTexture("unmute");
-        }
-    }
-
-    update() {}
 }

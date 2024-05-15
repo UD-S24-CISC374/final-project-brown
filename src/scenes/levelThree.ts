@@ -1,11 +1,8 @@
 import Phaser from "phaser";
 
 export default class levelThree extends Phaser.Scene {
-    //private stone?: Phaser.Physics.Arcade.StaticGroup;
     private score: number = 0;
     private scoreText?: Phaser.GameObjects.Text;
-    //source: Phaser.Types.Physics.Arcade.ImageWithDynamicBody;
-    //target: Phaser.Math.Vector2;
     private isMuted: boolean = false;
     private muteButton!: Phaser.GameObjects.Image;
 
@@ -26,7 +23,6 @@ export default class levelThree extends Phaser.Scene {
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
             .setDisplaySize(screenWidth, screenHeight);
-        // change when levels work
 
         const levelName = this.add.text(25, 25, "Level 3", {
             fontFamily: "Arial Black",
@@ -338,16 +334,7 @@ export default class levelThree extends Phaser.Scene {
                 }
                 if (this.score === correct.value) {
                     this.scene.start("levelThreePass");
-                } /*else if (tries < 3) {
-                            this.score = 0;
-                            this.add.text(225, 350, "Not Quite, Try Again", {
-                                fontFamily: "Arial Black",
-                                fontSize: "70px",
-                                color: "#ffffe0",
-                            });
-                            tries++;
-                        } 
-                        */ else {
+                } else {
                     this.scene.start("levelThreeFail");
                     this.score = 0;
                 }

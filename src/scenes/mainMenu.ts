@@ -44,8 +44,6 @@ export default class mainMenu extends Phaser.Scene {
             ease: "Linear",
         });
 
-        //this.add.image(600, 200, "duck");
-
         const title = this.add.text(225, 350, "CROSS THE POND", {
             fontFamily: "Arial Black",
             fontSize: "70px",
@@ -80,10 +78,10 @@ export default class mainMenu extends Phaser.Scene {
         });
 
         const tutorialButton = this.add
-            .text(screenWidth / 2, screenHeight / 2 + 270, "How to Play", {
+            .text(screenWidth / 2, screenHeight / 2 + 270, "Tutorial", {
                 color: "#ffffff",
                 fontSize: "32px",
-                fixedWidth: 240,
+                fixedWidth: 180,
                 backgroundColor: "#87ceeb",
             })
             .setPadding(16)
@@ -100,58 +98,7 @@ export default class mainMenu extends Phaser.Scene {
         });
 
         tutorialButton.on("pointerdown", () => {
-            this.createTutorialPopup();
-        });
-    }
-
-    createTutorialPopup() {
-        const screenWidth = this.scale.width;
-        const screenHeight = this.scale.height;
-
-        const bgRect = this.add.rectangle(
-            screenWidth / 2,
-            screenHeight / 2,
-            700,
-            500,
-            0x000000
-        );
-        bgRect.setOrigin(0.5);
-        bgRect.setAlpha(0.8);
-
-        // Add the tutorial text
-        const tutorialText = this.add.text(
-            screenWidth / 2,
-            screenHeight / 2,
-            "1. Select the stone that says START \n 2. Click on the stones (nodes) to select the shortest \n path for the duck to cross the pond. \n 3. If the submitted path is correct, the duck will be reunited \n with a member of its family. \n 4. If you cannot find the shortest path, you'll \n be prompted to try again. \n ",
-            {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#ffffff",
-                align: "center",
-            }
-        );
-        tutorialText.setOrigin(0.5);
-
-        // Close button
-        const closeButton = this.add.text(
-            screenWidth / 2,
-            screenHeight / 2 + 120,
-            "Close",
-            {
-                color: "#ffffff",
-                fontSize: "24px",
-                backgroundColor: "#87ceeb",
-                padding: { x: 16, y: 8 },
-            }
-        );
-        closeButton.setOrigin(0.5);
-        closeButton.setInteractive({ useHandCursor: true });
-
-        closeButton.on("pointerdown", () => {
-            // Remove the popup elements
-            bgRect.destroy();
-            tutorialText.destroy();
-            closeButton.destroy();
+            this.scene.start("tutorial");
         });
     }
 
