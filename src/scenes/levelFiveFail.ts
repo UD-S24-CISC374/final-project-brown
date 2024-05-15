@@ -52,7 +52,7 @@ export default class levelOnePass extends Phaser.Scene {
             .text(500, 500, "Try a different problem", {
                 color: "#ffffff",
                 fontSize: "32px",
-                fixedWidth: 425,
+                fixedWidth: 575,
                 backgroundColor: "#87ceeb",
             })
             .setPadding(32)

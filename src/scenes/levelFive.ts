@@ -32,18 +32,6 @@ export default class levelFive extends Phaser.Scene {
         });
         levelName.setStroke("#ffd700", 16);
 
-        const restart = this.add.text(1240, 25, "Restart", {
-            fontFamily: "Arial Black",
-            fontSize: "40px",
-            color: "#ffffe0",
-        });
-        restart.setStroke("#ffd700", 16);
-        restart.setOrigin(1, 0).setInteractive();
-        restart.on("pointerdown", () => {
-            this.score = 0;
-            this.scene.start("levelFive");
-        });
-
         this.muteButton = this.add
             .image(1150, 120, "unmute")
             .setScale(0.15)
@@ -220,6 +208,19 @@ export default class levelFive extends Phaser.Scene {
                 //}
             });
         duck1.setScale(0.4);
+
+        const restart = this.add.text(1240, 25, "Restart", {
+            fontFamily: "Arial Black",
+            fontSize: "40px",
+            color: "#ffffe0",
+        });
+        restart.setStroke("#ffd700", 16);
+        restart.setOrigin(1, 0).setInteractive();
+        restart.on("pointerdown", () => {
+            duck1.setX(150).setY(450).setDepth(1);
+            this.score = 0;
+            this.scoreText?.setText("Path Length: " + this.score);
+        });
 
         let stone1 = this.add
             .image(500, 400, "stone")
