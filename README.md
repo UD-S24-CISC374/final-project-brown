@@ -21,7 +21,7 @@ Find the shorteest pathusing Dijkstra's Algorithm. Click each stone on your path
 
 # Screenshot
 
-/assets/img/large.png
+[/assets/img/large.png]
 
 # Gameplay Video
 
