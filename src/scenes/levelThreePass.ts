@@ -5,10 +5,18 @@ export default class levelThreePass extends Phaser.Scene {
         super({ key: "levelThreePass", active: false });
     }
 
+    preload() {
+        this.load.audio("win", ["assets/audio/win.mp3"]);
+    }
+
     create() {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
+
+        const music = this.sound.add("win");
+        music.play;
+
         // Add a semi-transparent background rectangle to dim the game scene
         const background = this.add.rectangle(
             0,
