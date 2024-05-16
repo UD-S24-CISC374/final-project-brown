@@ -390,6 +390,7 @@ export default class levelFive extends Phaser.Scene {
                     duck1.setX(stone7.x).setY(stone7.y).setDepth(1);
                 }
                 if (this.score === correct.value) {
+                    this.sound.stopAll;
                     this.scene.start("endScreen");
                 } else {
                     this.scene.start("levelFiveFail");
