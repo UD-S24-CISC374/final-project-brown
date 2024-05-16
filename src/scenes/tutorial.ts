@@ -127,6 +127,7 @@ export default class Tutorial extends Phaser.Scene {
         );
         backButton.setStroke("#ffd700", 20).setOrigin(1).setInteractive();
         backButton.on("pointerdown", () => {
+            this.sound.stopAll();
             this.scene.start("mainMenu");
         });
 
