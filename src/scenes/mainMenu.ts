@@ -22,6 +22,7 @@ export default class mainMenu extends Phaser.Scene {
         const screenHeight: number = Number(height);
 
         const music = this.sound.add("theme");
+        music.loop = true;
         music.play();
 
         this.add
