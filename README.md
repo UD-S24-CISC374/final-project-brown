@@ -40,6 +40,10 @@ Duck img: https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.freepik.com%2Fpr
 Stepping Stones:https://www.google.com/url?sa=i&url=https%3A%2F%2Felchighland.com%2Fstepping-stones-2%2F&psig=AOvVaw0mxlnd_Qc6akzH6ufxYGhL&ust=1712350228058000&source=images&cd=vfe&opi=89978449&ved=0CBIQjRxqFwoTCODi7-q3qYUDFQAAAAAdAAAAABAE
 
 Music:
+Pass audio:
+
+https://www.myinstants.com/en/instant/rubber-duckie/?utm_source=copy&utm_medium=share 
+
 Fail audio:
 
 https://www.fesliyanstudios.com/royalty-free-sound-effects-download/sad-trombone-242
@@ -47,3 +51,11 @@ https://www.fesliyanstudios.com/royalty-free-sound-effects-download/sad-trombone
 Background music:
 
 https://pixabay.com/music/search/genre/cartoons/
+
+Clicking on each stone sound:
+
+https://www.myinstants.com/en/instant/duck-toy-sound-18073/?utm_source=copy&utm_medium=share 
+
+Winning audio:
+
+https://pixabay.com/sound-effects/search/happy/ 
