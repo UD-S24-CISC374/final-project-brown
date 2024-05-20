@@ -5,6 +5,9 @@ export default class Tutorial extends Phaser.Scene {
     private scoreText?: Phaser.GameObjects.Text;
     private showSuccessPopup!: Phaser.GameObjects.Container;
     private showTryAgainPopup!: Phaser.GameObjects.Container;
+    private currentStep: number = 0;
+    private steps: Phaser.GameObjects.Text[] = [];
+
     constructor() {
         super({ key: "tutorial" });
     }
@@ -25,83 +28,75 @@ export default class Tutorial extends Phaser.Scene {
         });
         tutorialText.setStroke("#ffd700", 16).setOrigin(0.5, 0);
 
-        const stepOne = this.add.text(
-            200,
-            100,
-            "Step 1: Click on the START stone",
-            {
+        this.steps = [
+            this.add.text(200, 100, "Step 1: Click on the START stone", {
                 fontFamily: "Arial",
                 fontSize: "24px",
                 color: "#ffffe0",
                 align: "left",
-            }
-        );
-        stepOne.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+            }),
+            this.add.text(
+                515,
+                140,
+                "Step 2: Look at the END stone and determine which stones would make up the smallest path",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "24px",
+                    color: "#ffffe0",
+                    align: "left",
+                }
+            ),
+            this.add.text(
+                360,
+                180,
+                "Step 3: Then, click the stones you think create the smallest path",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "24px",
+                    color: "#ffffe0",
+                    align: "left",
+                }
+            ),
+            this.add.text(
+                540,
+                220,
+                "Step 4: If you notice you mess up before the end, click the RESTART button in the top right corner",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "24px",
+                    color: "#ffffe0",
+                    align: "left",
+                }
+            ),
+            this.add.text(
+                280,
+                260,
+                "Step 5: If you get the path wrong, the level resets",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "24px",
+                    color: "#ffffe0",
+                    align: "left",
+                }
+            ),
+            this.add.text(
+                370,
+                300,
+                "Step 6: If you get the path correct, you'll move on to the next level",
+                {
+                    fontFamily: "Arial",
+                    fontSize: "24px",
+                    color: "#ffffe0",
+                    align: "left",
+                }
+            ),
+        ];
 
-        const stepTwo = this.add.text(
-            515,
-            140,
-            "Step 2: Look at the END stone and determine which stones would make up the smallest path",
-            {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#ffffe0",
-                align: "left",
-            }
-        );
-        stepTwo.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+        this.steps.forEach((step) => {
+            step.setStroke("#ffd700", 16).setOrigin(0.5, 0).setVisible(false);
+        });
 
-        const stepThree = this.add.text(
-            360,
-            180,
-            "Step 3: Then, click the stones you think create the smallest path",
-            {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#ffffe0",
-                align: "left",
-            }
-        );
-        stepThree.setStroke("#ffd700", 16).setOrigin(0.5, 0);
-
-        const stepFour = this.add.text(
-            540,
-            220,
-            "Step 4: If you notice you mess up before the end, click the RESTART button in the top right corner",
-            {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#ffffe0",
-                align: "left",
-            }
-        );
-        stepFour.setStroke("#ffd700", 16).setOrigin(0.5, 0);
-
-        const stepFive = this.add.text(
-            280,
-            260,
-            "Step 5: If you get the path wrong, the level resets",
-            {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#ffffe0",
-                align: "left",
-            }
-        );
-        stepFive.setStroke("#ffd700", 16).setOrigin(0.5, 0);
-
-        const stepSix = this.add.text(
-            370,
-            300,
-            "Step 6: If you get the path correct, you'll move on to the next level",
-            {
-                fontFamily: "Arial",
-                fontSize: "24px",
-                color: "#ffffe0",
-                align: "left",
-            }
-        );
-        stepSix.setStroke("#ffd700", 16).setOrigin(0.5, 0);
+        this.showNextStep();
 
         const restart = this.add.text(1240, 25, "Restart", {
             fontFamily: "Arial Black",
@@ -127,6 +122,7 @@ export default class Tutorial extends Phaser.Scene {
         );
         backButton.setStroke("#ffd700", 20).setOrigin(1).setInteractive();
         backButton.on("pointerdown", () => {
+            this.sound.stopAll();
             this.scene.start("mainMenu");
         });
 
@@ -171,6 +167,7 @@ export default class Tutorial extends Phaser.Scene {
                 //}
             });
         duck1.setScale(0.4);
+
         function generateValues(): number[] {
             const randomList: number[] = [];
             for (let i = 0; i < 10; i++) {
@@ -188,6 +185,7 @@ export default class Tutorial extends Phaser.Scene {
             [values[2] + values[4] + values[3]],
             [values[0] + values[4] + values[2]],
         ];
+
         function getPathValue(path: number[]): number {
             let value: number = 0;
             for (let v of path) {
@@ -200,8 +198,8 @@ export default class Tutorial extends Phaser.Scene {
             path: number[];
             value: number;
         } {
-            let shortestPath: number[] = paths[0]; // Assume the first path is the shortest initially
-            let shortestLength: number = getPathValue(paths[0]); // Get the value of the first path
+            let shortestPath: number[] = paths[0];
+            let shortestLength: number = getPathValue(paths[0]);
 
             for (let path of paths) {
                 let value: number = getPathValue(path);
@@ -255,6 +253,7 @@ export default class Tutorial extends Phaser.Scene {
                 bgRect.destroy();
                 successText.destroy();
                 closeButton.destroy();
+                this.showNextStep();
             });
         };
 
@@ -295,6 +294,7 @@ export default class Tutorial extends Phaser.Scene {
                 bgRect.destroy();
                 tryAgainText.destroy();
                 closeButton.destroy();
+                this.showNextStep();
             });
         };
 
@@ -304,6 +304,7 @@ export default class Tutorial extends Phaser.Scene {
             .setAngle(0)
             .setInteractive()
             .on("pointerdown", () => {
+                this.showNextStep();
                 if (duck1.x == 700) {
                     this.score += values[4];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
@@ -328,6 +329,8 @@ export default class Tutorial extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.showNextStep();
+                this.showNextStep();
                 if (duck1.x == 500) {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
                     this.score += values[0];
@@ -347,6 +350,7 @@ export default class Tutorial extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.showNextStep();
                 if (duck1.x == 275) {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
                     this.score += values[1];
@@ -382,16 +386,7 @@ export default class Tutorial extends Phaser.Scene {
                     showSuccessPopup();
                 } else {
                     showTryAgainPopup();
-                } /*else if (tries < 3) {
-                            this.score = 0;
-                            this.add.text(225, 350, "Not Quite, Try Again", {
-                                fontFamily: "Arial Black",
-                                fontSize: "70px",
-                                color: "#ffffe0",
-                            });
-                            tries++;
-                        } 
-                        */
+                }
             })
             .on("pointerover", () => stone4.setScale(0.5))
             .on("pointerout", () => stone4.setScale(0.4));
@@ -434,5 +429,12 @@ export default class Tutorial extends Phaser.Scene {
             fontSize: "30px",
             color: "000000",
         });
+    }
+
+    showNextStep() {
+        if (this.currentStep < this.steps.length) {
+            this.steps[this.currentStep].setVisible(true);
+            this.currentStep++;
+        }
     }
 }

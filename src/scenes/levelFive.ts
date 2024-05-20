@@ -4,6 +4,7 @@ export default class levelFive extends Phaser.Scene {
     private scoreText?: Phaser.GameObjects.Text;
     private isMuted: boolean = false;
     private muteButton!: Phaser.GameObjects.Image;
+    private stepStoneSound!: Phaser.Sound.BaseSound;
 
     constructor() {
         super({ key: "levelFive" });
@@ -12,6 +13,7 @@ export default class levelFive extends Phaser.Scene {
     preload() {
         this.load.image("mute", "assets/img/mutebutton.png");
         this.load.image("unmute", "assets/img/unmutebutton.png");
+        this.load.audio("stepstone", ["assets/audio/stepstone.mp3"]);
     }
 
     create() {
@@ -19,7 +21,7 @@ export default class levelFive extends Phaser.Scene {
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
 
-        this.add;
+        this.stepStoneSound = this.sound.add("stepstone");
 
         this.add
             .image(screenWidth / 2, screenHeight / 2, "pond")
@@ -228,6 +230,7 @@ export default class levelFive extends Phaser.Scene {
             .setAngle(0)
             .setInteractive()
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 275) {
                     this.score = values[0];
                     duck1.setX(stone1.x).setY(stone1.y).setDepth(1);
@@ -260,6 +263,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 500) {
                     duck1.setX(stone2.x).setY(stone2.y).setDepth(1);
                     this.score += values[0];
@@ -281,6 +285,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 500) {
                     duck1.setX(stone3.x).setY(stone3.y).setDepth(1);
                     this.score += values[7];
@@ -304,6 +309,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 500) {
                     duck1.setX(stone4.x).setY(stone4.y).setDepth(1);
                     this.score += values[4];
@@ -331,6 +337,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 500) {
                     duck1.setX(stone5.x).setY(stone5.y).setDepth(1);
                     this.score += values[8];
@@ -354,6 +361,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 275) {
                     duck1.setX(stone6.x).setY(stone6.y).setDepth(1);
                     this.score += values[5];
@@ -381,6 +389,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 790) {
                     duck1.setX(stone7.x).setY(stone7.y).setDepth(1);
                     this.score += values[9];
@@ -390,6 +399,7 @@ export default class levelFive extends Phaser.Scene {
                     duck1.setX(stone7.x).setY(stone7.y).setDepth(1);
                 }
                 if (this.score === correct.value) {
+                    this.sound.stopAll;
                     this.scene.start("endScreen");
                 } else {
                     this.scene.start("levelFiveFail");
@@ -408,6 +418,7 @@ export default class levelFive extends Phaser.Scene {
             .setInteractive()
             .setDepth(0)
             .on("pointerdown", () => {
+                this.playStepStoneSound();
                 if (duck1.x == 740) {
                     duck1.setX(stone8.x).setY(stone8.y).setDepth(1);
                     this.score += values[12];
@@ -449,6 +460,12 @@ export default class levelFive extends Phaser.Scene {
             color: "#ffffe0",
         });
         this.scoreText.setStroke("#ffd700", 16);
+    }
+
+    private playStepStoneSound() {
+        if (!this.isMuted) {
+            this.stepStoneSound.play();
+        }
     }
 
     toggleMute() {

@@ -5,10 +5,15 @@ export default class levelOnePass extends Phaser.Scene {
         super({ key: "levelOnePass", active: false });
     }
 
+    preload() {
+        this.load.audio("win", ["assets/audio/win.mp3"]);
+    }
+
     create() {
         const { width, height } = this.sys.game.config;
         const screenWidth: number = Number(width);
         const screenHeight: number = Number(height);
+
         // Add a semi-transparent background rectangle to dim the game scene
         const background = this.add.rectangle(
             0,
@@ -44,6 +49,9 @@ export default class levelOnePass extends Phaser.Scene {
             .setOrigin(0.2);
 
         nextLevel.setInteractive({ useHandCursor: true });
+
+        const music = this.sound.add("win");
+        music.play;
 
         console.log("attaching listener to button");
         nextLevel.on("pointerdown", () => {

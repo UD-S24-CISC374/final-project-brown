@@ -56,6 +56,9 @@ export default class levelOnePass extends Phaser.Scene {
 
         tryAgain.setInteractive({ useHandCursor: true });
 
+        const failSound = this.sound.add("fail");
+        failSound.play();
+
         console.log("attaching listener to button");
         tryAgain.on("pointerdown", () => {
             console.log("Button clicked!");
